@@ -126,7 +126,7 @@ $(function () {
 		var identity = JSON.parse(identityData);
 
 		registerPage.cryptoName = window.cryptoName;
-		registerPage.DID = identity.did;
+		registerPage.DID = identity.DID;
 		registerPage.elaAddress = identity.ELAAddress;
 		registerPage.ethAddress = identity.ETHAddress;
 		registerPage.btcAddress = identity.BTCAddress;
