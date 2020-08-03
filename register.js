@@ -67,7 +67,7 @@ $(function () {
 	var registerPage = new Vue({
 		el:"#registerPage",
 		data: {
-			"cryptoName" : window.cryptoname,
+			"cryptoName" : window.cryptoName.trim().toLowerCase(),
 			"namePrice" : 0.0,
 			"DID" : "",
 			"elaAddress" : "",
