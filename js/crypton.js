@@ -27,6 +27,8 @@ class Crypton {
 		var pthis = this;
 		return this._web3.eth.getAccounts()
 			.then(function(accounts) {
+				if (!accounts)
+					return "";
 				if (!pthis._account || pthis._account != accounts[0]) {
 					pthis._account = accounts[0];
 				}
