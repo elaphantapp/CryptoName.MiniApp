@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <title>CryptoName - Elastos Name</title>
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <style>
+     .bd-placeholder-img {
+       font-size: 1.125rem;
+       text-anchor: middle;
+       -webkit-user-select: none;
+       -moz-user-select: none;
+       -ms-user-select: none;
+       user-select: none;
+     }
+     @media (min-width: 768px) {
+       .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+       }
+     }
+  </style>
+  <!-- Custom styles for this template -->
+  <link href="register.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div id="registerPage" class="container">
+     <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="images/logo.png" alt="" width="72" height="72">
+        <h2>CryptoName</h2>
+        <p class="lead">This is a service for proxy registration of CryptoName. We will use the information in your wallet to register your name. After success, it will be transferred to your sidechain wallet address.</p>
+     </div>
+     <div class="row">
+        <div class="col-10 mx-auto order-md-1">
+           <form class="needs-validation" novalidate>
+              <h4 class="mb-3">Name</h4>
+              <div class="input-group mb-3 shadow-sm">
+                 <input type="text" class="form-control rounded" aria-label="Recipient's username" aria-describedby="basic-addon2" v-model="cryptoName" readonly>
+                 <div class="input-group-append rounded">
+                    <span class="input-group-text" id="basic-addon2">.elastos.name</span>
+                 </div>
+              </div>
+              <hr class="mb-4">
+              <h4 class="mb-3">Basic info</h4>
+              <div class="mb-3">
+                 <label>Elastos DID</label>
+                 <input type="text" class="form-control" placeholder="elastos DID" v-model="DID" required>
+              </div>
+              <div class="mb-3">
+                 <label>BTC Address</label>
+                 <input type="text" class="form-control" placeholder="bitcoin address" v-model="btcAddress" required>
+              </div>
+              <div class="mb-3">
+                 <label>ETH Address (Same with CryptoName owner)</label>
+                 <input type="text" class="form-control" placeholder="ethereum address" v-model="ethAddress" required>
+              </div>
+              <div class="mb-3">
+                 <label >ELA Address</label>
+                 <input type="text" class="form-control" placeholder="elastos address" v-model="elaAddress" required>
+              </div>
+              <div class="mb-3">
+                 <label>Public Key</label>
+                 <input type="text" class="form-control" placeholder="public key" v-model="publicKey" required>
+              </div>
+              <hr class="mb-4">
+              <div class="custom-control custom-checkbox">
+                 <input id="same-address" type="checkbox" class="custom-control-input" true-value="1" false-value="0" v-model="enableMessenger">
+                 <label class="custom-control-label" for="same-address">Enable <span class="text-primary">Messenger</span>?</label>
+                 <input type="text" class="form-control" placeholder="Sign the result of the string below with your wallet" v-model="signature" v-if="enableMessenger!=0" required>
+                 <span v-if="enableMessenger!=0">{{ cryptoName+'.elastos.namemessenger'+ethAddress.toLowerCase() }}</span>
+
+              </div>
+              <hr class="mb-4">
+              <h4 class="mb-3">Deposit ELA to sidechain</h4>
+              <div class="row custom-control">
+                 <div class="custom-control custom-radio">
+                    <input id="credit" name="depositAmount" type="radio" class="custom-control-input" value="0.5" v-model="depositAmount" checked required>
+                    <label class="custom-control-label" for="credit">0.5 ELA</label>
+                 </div>
+                 <div class="custom-control custom-radio">
+                    <input id="debit" name="depositAmount" type="radio" class="custom-control-input" value="5" v-model="depositAmount" required>
+                    <label class="custom-control-label" for="debit">5 ELA</label>
+                 </div>
+                 <div class="custom-control custom-radio">
+                    <input id="paypal" name="depositAmount" type="radio" class="custom-control-input" value="15" v-model="depositAmount" required>
+                    <label class="custom-control-label" for="paypal">15 ELA</label>
+                 </div>
+              </div>
+              <hr class="mb-4">
+              <h4 class="mb-3">Bill details</h4>
+              <ul class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                  <div>
+                    <h6 class="my-0">Name Price</h6>
+                    <small class="text-muted">Brief description</small>
+                  </div>
+                  <span class="text-muted">{{ namePrice }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                  <div>
+                    <h6 class="my-0">Deposit</h6>
+                    <small class="text-muted">Brief description</small>
+                  </div>
+                  <span class="text-muted">{{ depositAmount }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                  <div>
+                    <h6 class="my-0">Setup&Transfer Fee</h6>
+                    <small class="text-muted">Setup info and transfer to you</small>
+                  </div>
+                  <span class="text-muted">0.2</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between bg-light">
+                  <div>
+                    <h6 class="my-0">Service Fee</h6>
+                    <small>Proxy service fee</small>
+                  </div>
+                  <span class="text-muted">0.5</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between text-success">
+                  <span>Total (ELA)</span>
+                  <strong>{{ totalAmount=Math.ceil((parseFloat(namePrice)+parseFloat(depositAmount)+parseFloat(0.2)+parseFloat(0.5))*1000)/1000 }}</strong>
+                </li>
+              </ul>
+
+              <div class="text-center">
+                 <button class="btn btn-primary btn-lg" type="submit" @click="pay()" :disabled="namePrice==0 || depositAmount==0">Continue to Pay</button>
+              </div>
+           </form>
+        </div>
+     </div>
+     <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">Powered by @Elaphant</p>
+        <ul class="list-inline">
+           <a href="https://t.me/CryptoName1" class="Telegram"><i class="fa fa-telegram"></i></a>
+           <a href="https://twitter.com/CryptoNameOrg" class="twitter"><i class="fa fa-twitter"></i></a>
+           <a href="https://www.instagram.com/cryptoname_/?hl=en" class="instagram"><i class="fa fa-instagram"></i></a>
+        </ul>
+     </footer>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script>window.jQuery</script>
+  <script src="js/bootstrap.bundle.js"></script>
+  <script src="js/web3.min.js"></script>
+  <script src="js/vue.min.js"></script>
+  <script src="js/vue-clipboard.min.js"></script>
+  <script src="js/sha256.min.js"></script>
+  <script src="js/elastos-wallet-api.js"></script>
+  <script src="js/domain_abi.js"></script>
+  <script src="js/crypton.js"></script>
+  <script src="js/web3bridge.js"></script>
+  <script src="register.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="">
+      <title>CryptoName - Elastos Name</title>
+      <!-- Bootstrap core CSS -->
+      <link href="css/bootstrap.css" rel="stylesheet">
+      <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+      <style>
+
+
+      </style>
+      <!-- Custom styles for this template -->
+      <link href="style.css" rel="stylesheet">
+   </head>
+   <body>
+
+      <header class="w-100 fixed-top">
+         <nav id="navbar" class="navbar navbar-expand-lg navbar-light rounded">
+            <a class="navbar-brand" href="#"><img class="mr-2" src="images/logo.png" width="36px" height="36px"/>CryptoName</a>
+            <button class="navbar-toggler mr-1 collapsed" type="button" data-toggle="collapse" data-target="#menu-nav" aria-controls="menu-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="col collapse navbar-collapse text-right" id="menu-nav">
+               <ul class="navbar-nav mr-auto col">
+                  <li class="nav-item active" data-target="home-main" @click="click('home', $event)">
+                     <a class="nav-link" href="#" >Home</a>
+                  </li>
+                  <li class="nav-item" data-target="account-main" @click="click('account', $event)">
+                     <a class="nav-link" href="#" >Account</a>
+                  </li>
+               </ul>
+
+                <div class="col sns-links">
+                    <a href="https://t.me/CryptoName1" class="Telegram"><i class="fa fa-telegram"></i></a>
+                    <a href="https://twitter.com/CryptoNameOrg" class="twitter"><i class="fa fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/cryptoname_/?hl=en" class="instagram"><i class="fa fa-instagram"></i></a>
+                </div>
+            </div>
+         </nav>
+      </header>
+
+
+      <main role="main" id="home-main" class="row h-100">
+         <div class="container my-auto mx-auto align-self-center" v-if="loaded">
+            <form class="search-area text-center mx-auto">
+               <div class="input-group mb-3 shadow-sm">
+                 <input id="input-name" type="text" class="form-control rounded-left" aria-describedby="basic-addon2" v-model="cryptoName" @input="checkNameAndPrice" placeholder="Only a-z and 0-9" v-focus onkeyup="this.value=this.value.replace(/[^a-z0-9]/g,'');">
+                 <div class="input-group-append rounded-right">
+                   <span class="input-group-text" id="basic-addon2">.elastos.name</span>
+                 </div>
+               </div>
+               <div class="mb-3 text-center">
+                 <label>
+                   Price: <span class="text-danger">{{ currentPrice }}</span> ELA (EST)
+                 </label>
+               </div>
+               <button class="btn btn-primary text-light" type="submit" @click="register()" :disabled="!nameResult">Register</button>
+            </form>
+         </div>
+      </main>
+
+      <main role="main" id="account-main" class="row h-100 d-none">
+         <div class="container align-self-start mr-auto ml-auto row" v-if="loaded">
+            <div class="card rounded-lg mx-auto mb-3" style="width: 20rem; height: auto;" v-for="(item, index) in myNames">
+              <div class="card-body row">
+                <div class="col-10">
+                  <h5 class="card-title font-weight-bold mb-0">{{ item.name }}</h5>
+                  <span class="text-muted card-title font-weight-bold text-truncate" style="font-size: 0.8rem">.elastos.name</span>
+                  <p class="card-text text-muted" style="font-size: 0.8rem">{{ new Date(item.expiration * 1000).Format('yyyy-MM-dd hh:mm:ss') }}</p>
+                </div>
+                <div class="col">
+                  <a href="#" class="card-link text-dark">
+                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up-right-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                       <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                       <path fill-rule="evenodd" d="M10.5 5h-4a.5.5 0 0 0 0 1h2.793l-4.147 4.146a.5.5 0 0 0 .708.708L10 6.707V9.5a.5.5 0 0 0 1 0v-4a.5.5 0 0 0-.5-.5z"/>
+                     </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="card  rounded-lg mx-auto mb-3" style="width: 20rem; height: auto; ">
+              <div class="card-body row">
+                <div class="col-10">
+                  <h4 class="card-title font-weight-bold">+New</h4>
+                  <p class="card-text text-muted" style="font-size: 0.8rem"></p>
+                </div>
+                <div class="col">
+                </div>
+              </div>
+            </div>
+
+         </div>
+      </main>
+
+
+      <footer class="footer mt-auto py-1 fixed-bottom">
+        <div class="container footer-copyright text-center py-1 text-muted">
+          Powered by
+          <a href="https://elamessenger.elaphant.app/channel.html?n=elaphant">@Elaphant</a>
+        </div>
+      </footer>
+
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script>window.jQuery</script>
+      <script src="js/bootstrap.bundle.js"></script>
+      <script src="js/web3.min.js"></script>
+      <script src="js/vue.min.js"></script>
+      <script src="js/vue-clipboard.min.js"></script>
+      <script src="js/sha256.min.js"></script>
+      <script src="js/elastos-wallet-api.js"></script>
+      <script src="js/domain_abi.js"></script>
+      <script src="js/crypton.js"></script>
+      <script src="js/web3bridge.js"></script>
+      <script src="main.js"></script>
+      <script>
+         $(document).ready(function() {
+             // $( ".mr-auto .nav-item" ).bind( "click", function(event) {
+             //     // //event.preventDefault();
+             //     // var clickedItem = $( this );
+             //     // $( ".mr-auto .nav-item" ).each( function() {
+             //     //     var target = $( this ).data('target');
+             //     //     $( "#"+target ).addClass('d-none');
+             //     //     $( this ).removeClass( "active" );
+             //     // });
+             //     // clickedItem.addClass( "active" );
+             //     // var target = $( this ).data('target');
+             //     // $( "#"+target ).removeClass('d-none');
+             //     // $('.navbar-collapse').collapse('hide');
+             // });
+         });
+      </script>
+
+   </body>
+</html>
