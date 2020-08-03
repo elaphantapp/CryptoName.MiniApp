@@ -134,7 +134,7 @@ window.initWallet().then(function(result) {
 			},
 			register() {
 				if (identityData) {
-					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&Data="+ JSON.stringify(identityData);
+					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&Data="+encodeURIComponent(JSON.stringify(identityData));
 					window.open(url);
 				}
 				else {
