@@ -124,15 +124,6 @@ $(function () {
 
 	if (identityData) {
 		var identity = JSON.parse(identityData);
-		var sign = params.get("Sign");
-
-		if ( verify(identityData, sign, identity.PublicKey) && identity.RandomNumber == getProfile("random") ) {
-			currentAddress = identity.ETHAddress.toLowerCase();
-		}
-		else {
-			alert("Failed to log in to Elephant Wallet, please try again");
-			return;
-		}
 
 		registerPage.cryptoName = window.cryptoName;
 		registerPage.DID = identity.did;
