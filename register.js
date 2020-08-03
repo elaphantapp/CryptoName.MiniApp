@@ -75,7 +75,7 @@ $(function () {
 			"ethAddress" : "",
 			"publicKey" : "",
 			"signature" : "",
-			"depositAmount" : 0.0,
+			"depositAmount" : 0.5,
 			"totalAmount" : 0.0,
 			"enableMessenger" : 0
 		},
