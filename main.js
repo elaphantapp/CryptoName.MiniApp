@@ -82,9 +82,16 @@ window.initWallet().then(function(result) {
 		}
 
 		setProfile("currentAddress", currentAddress);
-		setProfile("userInfo", identityData);
+		setProfile("userInfo", JSON.stringify(identityData));
 		setProfile("timestamp", parseInt(Date.now()/1000));
 	}
+	else {
+		var data = getProfile("userInfo");
+		if (data) {
+			identityData = JSON.parse(data);
+		}
+	}
+
 
 
 	var homePage = new Vue({
@@ -127,7 +134,7 @@ window.initWallet().then(function(result) {
 			},
 			register() {
 				if (identityData) {
-					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&Data="+identityData;
+					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&Data="+ JSON.stringify(identityData);
 				}
 				else {
 					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName
@@ -150,14 +157,8 @@ window.initWallet().then(function(result) {
 			updateMyNames : function(address, force) {
 				var pthis = this;
 
-				if (!force) {
-					//var tm = getProfile(address+"_names_timestamp");
-					// pthis.myNames = JSON.parse(getProfile(address+"_names"));
-					// if (tm && parseInt(Date.now()/1000) - tm < 360) {
-					// 	return;
-					// }
-				}
-				pthis.myNames = JSON.parse(getProfile(address+"_names"));
+				if (address && address !="") 
+					this.myNames = JSON.parse(getProfile(address+"_names"));
 
 				window.crypton.getOwnerNameTokens(address).then(function(result) {
 					pthis.myNames = result;
