@@ -5,6 +5,7 @@ if (window.TEST) {
 	window.elaeth_blocknumber_url = "https://explorer.elaeth.io/api?module=block&action=eth_block_number";
 	window.contract_address = "0xefdb328c09b6e20314fe201a5dba74cf36ef8bdd";
     window.provider_url = "https://ropsten.infura.io/v3/9696ce3787ed44efad995c28547803e1";
+    window.trigger_url = "https://api-test.elastos.name/nameInfo/buy";
 }
 else {
 	window.elaeth_blocknumber_url = "https://explorer.elaeth.io/api?module=block&action=eth_block_number";

@@ -35,7 +35,7 @@
         <p class="lead">This is a service for proxy registration of CryptoName. We will use the information in your wallet to register your name. After success, it will be transferred to your sidechain wallet address.</p>
      </div>
      <div class="row">
-        <div class="col-10 mx-auto order-md-1">
+        <div class="col-11 mx-auto order-md-1">
            <form class="needs-validation" novalidate>
               <h4 class="mb-3">Name</h4>
               <div class="input-group mb-3 shadow-sm">
@@ -55,7 +55,7 @@
                  <input type="text" class="form-control" placeholder="bitcoin address" v-model="btcAddress" required>
               </div>
               <div class="mb-3">
-                 <label>ETH Address (Same with CryptoName owner)</label>
+                 <label>ETH Address (Same with Sidechain)</label>
                  <input type="text" class="form-control" placeholder="ethereum address" v-model="ethAddress" required>
               </div>
               <div class="mb-3">
@@ -87,7 +87,7 @@
                  </div>
                  <div class="custom-control custom-radio">
                     <input id="paypal" name="depositAmount" type="radio" class="custom-control-input" value="15" v-model="depositAmount" required>
-                    <label class="custom-control-label" for="paypal">15 ELA</label>
+                    <label class="custom-control-label" for="paypal">12 ELA</label>
                  </div>
               </div>
               <hr class="mb-4">
@@ -96,23 +96,23 @@
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
                     <h6 class="my-0">Name Price</h6>
-                    <small class="text-muted">Brief description</small>
+                    <small class="text-muted">The price of CryptoName</small>
                   </div>
                   <span class="text-muted">{{ namePrice }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
                     <h6 class="my-0">Deposit</h6>
-                    <small class="text-muted">Brief description</small>
+                    <small class="text-muted">Deposit ELA to sidechain</small>
                   </div>
                   <span class="text-muted">{{ depositAmount }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
                     <h6 class="my-0">Setup&Transfer Fee</h6>
-                    <small class="text-muted">Setup info and transfer to you</small>
+                    <small class="text-muted">The cost of transferring</small>
                   </div>
-                  <span class="text-muted">0.2</span>
+                  <span class="text-muted">0.1</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between bg-light">
                   <div>
@@ -134,7 +134,7 @@
         </div>
      </div>
      <footer class="my-5 pt-5 text-muted text-center text-small">
-        <p class="mb-1">Powered by @Elaphant</p>
+        <p class="mb-1">Powered by <a href="https://elamessenger.elaphant.app/channel.html?n=elaphant">@Elaphant</a></p>
         <ul class="list-inline">
            <a href="https://t.me/CryptoName1" class="Telegram"><i class="fa fa-telegram"></i></a>
            <a href="https://twitter.com/CryptoNameOrg" class="twitter"><i class="fa fa-twitter"></i></a>

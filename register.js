@@ -97,7 +97,7 @@ $(function () {
 				var appID = "ac89a6a3ff8165411c8426529dccde5cd44d5041407bf249b57ae99a6bfeadd60f74409bd5a3d81979805806606dd2d55f6979ca467982583ac734cf6f55a290";
 				var appName = "Mini Apps";
 				var publicKey = "034c51ddc0844ff11397cc773a5b7d94d5eed05e7006fb229cf965b47f19d27c55";
-				var returnUrl = "https://cryptoname.elaphant.app";
+				var returnUrl = window.trigger_url;
 				var orderID = "Referrer:elaphant;Owner:"+this.ethAddress+";Data:"+btoa(JSON.stringify(domainInfo));
 
 				var elaphantURL = "elaphant://elapay?DID=" + developerDID +
