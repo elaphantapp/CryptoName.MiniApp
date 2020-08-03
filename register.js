@@ -114,7 +114,7 @@ $(function () {
 				var url = "https://launch.elaphant.app/?appName="+encodeURIComponent(appTitle)+
 						  	"&appTitle="+encodeURIComponent(appTitle)+
 						  	"&autoRedirect=True&redirectURL="+encodeURIComponent(elaphantURL);
-				window.location.href = url;
+				//window.location.href = url;
 				window.open(url);
 			}
 		},
@@ -132,8 +132,6 @@ $(function () {
 		registerPage.btcAddress = identity.BTCAddress;
 		registerPage.publicKey = identity.PublicKey;
 
-		setProfile("userInfo", identityData);
-		setProfile("timestamp", parseInt(Date.now()/1000));
 	}
 
 	initWallet().then(function(result) {
