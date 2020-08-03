@@ -151,12 +151,13 @@ window.initWallet().then(function(result) {
 				var pthis = this;
 
 				if (!force) {
-					var tm = getProfile(address+"_names_timestamp");
-					if (tm && parseInt(Date.now()/1000) - tm < 360) {
-						pthis.myNames = JSON.parse(getProfile(address+"_names"));
-						return;
-					}
+					//var tm = getProfile(address+"_names_timestamp");
+					// pthis.myNames = JSON.parse(getProfile(address+"_names"));
+					// if (tm && parseInt(Date.now()/1000) - tm < 360) {
+					// 	return;
+					// }
 				}
+				pthis.myNames = JSON.parse(getProfile(address+"_names"));
 
 				window.crypton.getOwnerNameTokens(address).then(function(result) {
 					pthis.myNames = result;
