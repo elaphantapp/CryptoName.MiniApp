@@ -152,7 +152,7 @@ window.initWallet().then(function(result) {
 
 				if (!force) {
 					var tm = getProfile(address+"_names_timestamp");
-					if (tm && parseInt(Date.now()/1000) - tm < 3600*24) {
+					if (tm && parseInt(Date.now()/1000) - tm < 360) {
 						pthis.myNames = JSON.parse(getProfile(address+"_names"));
 						return;
 					}
@@ -199,7 +199,7 @@ window.initWallet().then(function(result) {
                 		login(url);
                 	}
 
-					accountPage.updateMyNames(currentAddress, true);
+					accountPage.updateMyNames(currentAddress);
                 }
 			}
 
