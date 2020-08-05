@@ -134,11 +134,11 @@ window.initWallet().then(function(result) {
 			},
 			register() {
 				if (identityData) {
-					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&Data="+encodeURIComponent(JSON.stringify(identityData));
+					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&Data="+encodeURIComponent(JSON.stringify(identityData))+"&r="+encodeURIComponent(window.returnURL);
 					window.open(url);
 				}
 				else {
-					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName
+					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&r="+encodeURIComponent(window.returnURL)
 					login(url, true);
 				}
 			}
