@@ -56,7 +56,7 @@ window.initWallet().then(function(result) {
 				  	"&appTitle="+encodeURIComponent(appTitle)+
 				  	"&autoRedirect=True&redirectURL="+encodeURIComponent(elaphantURL);
 
-		window.location.href = url;	
+		window.open(url);
 	}
 
 	window.logout = function() {
