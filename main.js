@@ -3,9 +3,9 @@ window.initWallet().then(function(result) {
 	if (!window.crypton)
 		alert("Init Web3 Provider failed, please restart browser and try again.");
 
-	const url = new URL(window.location.href);
+	const url = new URL(window.location.href.replace("#", ""));
 	var entryURL = url.href;
-	window.returnURL = window.location.href.split('?')[0];
+	window.returnURL = window.location.href.split('?')[0].replace("#", "");
 
 	let params = new URLSearchParams(url.search.substring(1));
 	var identityData = params.get("Data");
@@ -25,7 +25,6 @@ window.initWallet().then(function(result) {
 	}
 
 	window.login = function(returnUrl, force) {
-
 		if (!force) {
 			currentAddress = getProfile("currentAddress");
 			var tm = getProfile("timestamp");
@@ -57,7 +56,7 @@ window.initWallet().then(function(result) {
 				  	"&appTitle="+encodeURIComponent(appTitle)+
 				  	"&autoRedirect=True&redirectURL="+encodeURIComponent(elaphantURL);
 
-		window.location.href = url;		
+		window.location.href = url;	
 	}
 
 	window.logout = function() {

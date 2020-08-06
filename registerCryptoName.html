@@ -142,7 +142,26 @@
         </ul>
      </footer>
   </div>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <div id="waitingbox" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 id="waiting-title" class="modal-title">Processing...</h5>
+        </div>
+        <div class="modal-body">
+          <p id="waiting-p1">Registering your name, Please wait a moment...</p>
+          <p id="waiting-p2" style="word-break:break-all;"></p>
+        </div>
+        <div class="modal-footer">
+          <!--button type="button" class="btn btn-primary">Save changes</button-->
+          <button id="waiting-close" type="button" class="btn btn-secondary">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="js/jquery-3.5.1.slim.min.js"></script>
   <script>window.jQuery</script>
   <script src="js/bootstrap.bundle.js"></script>
   <script src="js/web3.min.js"></script>

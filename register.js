@@ -1,13 +1,19 @@
 $(function () {
 
-	const url = new URL(window.location.href);
+	const url = new URL(window.location.href.replace("#", ""));
 	var entryURL = url.href;
 	window.returnURL = window.location.href.split('?')[0];
 
 	let params = new URLSearchParams(url.search.substring(1));
 	var identityData = params.get("Data");
+	var TXID = params.get("TXID");
+
 	window.cryptoName = params.get("n");
 	window.returnURL = params.get("r") || window.location.href.split('?')[0];
+
+	if (!window.cryptoName)
+		window.cryptoName = "";
+
 
 	var setProfile = function(key, value) {
 		return localStorage.setItem(key, value);
@@ -98,8 +104,8 @@ $(function () {
 				var appID = "ac89a6a3ff8165411c8426529dccde5cd44d5041407bf249b57ae99a6bfeadd60f74409bd5a3d81979805806606dd2d55f6979ca467982583ac734cf6f55a290";
 				var appName = "Mini Apps";
 				var publicKey = "034c51ddc0844ff11397cc773a5b7d94d5eed05e7006fb229cf965b47f19d27c55";
-				var returnUrl = window.returnURL;
-				var callbackUrl = window.trigger_url;
+				var returnUrl = window.location.href.split('?')[0] + "?r=" + encodeURIComponent(window.returnURL);
+				//var callbackUrl = window.trigger_url;
 				var orderID = "Referrer:elaphant;Owner:"+this.ethAddress+";Data:"+btoa(JSON.stringify(domainInfo));
 
 				var elaphantURL = "elaphant://elapay?DID=" + developerDID +
@@ -112,7 +118,7 @@ $(function () {
 								 "&ReceivingAddress=" + proxyAddress +
 								 "&Amount=" + this.totalAmount +
 								 "&ReturnUrl=" + encodeURIComponent(returnUrl);
-								 "&CallbackUrl=" + encodeURIComponent(callbackUrl);
+								 //"&CallbackUrl=" + encodeURIComponent(callbackUrl);
 
 				var url = "https://launch.elaphant.app/?appName="+encodeURIComponent(appTitle)+
 						  	"&appTitle="+encodeURIComponent(appTitle)+
@@ -152,5 +158,22 @@ $(function () {
 		});
 	});
 
+	if (TXID) {
+		$("#waiting-close").click(function() {
+			window.open(window.returnURL);
+		});
+
+		$("#waitingbox").modal({backdrop: 'static', keyboard: false});
+		$("#waitingbox").modal('show');
+		fetch(window.trigger_url+"?TXID="+TXID).then( function (response) {
+			return response.json();
+		}).then(function(result) {
+			$("#waiting-title").text("Finish!");
+			$("#waiting-p1").text("Result code: "+result.code);
+			$("#waiting-p2").text("Message: "+result.message);
+			//$("#waitingbox").modal('hide');
+		});
+		return;
+	}
 
 });
