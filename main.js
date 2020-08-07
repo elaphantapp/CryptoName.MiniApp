@@ -81,7 +81,7 @@ window.initWallet().then(function(result) {
 		}
 
 		setProfile("currentAddress", currentAddress);
-		setProfile("userInfo", JSON.stringify(identityData));
+		setProfile("userInfo", JSON.stringify(identity));
 		setProfile("timestamp", parseInt(Date.now()/1000));
 	}
 	else {
@@ -134,7 +134,7 @@ window.initWallet().then(function(result) {
 			register() {
 				if (identityData) {
 					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&Data="+encodeURIComponent(JSON.stringify(identityData))+"&r="+encodeURIComponent(window.returnURL);
-					window.open(url);
+					window.open(url, "_blank");
 				}
 				else {
 					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&r="+encodeURIComponent(window.returnURL)
