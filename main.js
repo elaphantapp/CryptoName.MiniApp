@@ -56,7 +56,7 @@ window.initWallet().then(function(result) {
 				  	"&appTitle="+encodeURIComponent(appTitle)+
 				  	"&autoRedirect=True&redirectURL="+encodeURIComponent(elaphantURL);
 
-		window.open(url);
+		window.open(url, "_blank");
 	}
 
 	window.logout = function() {
@@ -157,14 +157,15 @@ window.initWallet().then(function(result) {
 			updateMyNames : function(address, force) {
 				var pthis = this;
 
-				if (address && address !="") 
+				if (address && address !="") {
 					this.myNames = JSON.parse(getProfile(address+"_names"));
 
-				window.crypton.getOwnerNameTokens(address).then(function(result) {
-					pthis.myNames = result;
-					setProfile(address+"_names", JSON.stringify(result));
-					setProfile(address+"_names_timestamp", parseInt(Date.now()/1000));
-				});
+					window.crypton.getOwnerNameTokens(address).then(function(result) {
+						pthis.myNames = result;
+						setProfile(address+"_names", JSON.stringify(result));
+						setProfile(address+"_names_timestamp", parseInt(Date.now()/1000));
+					});
+				}
 
 			},
 
