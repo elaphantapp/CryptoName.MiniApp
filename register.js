@@ -160,6 +160,7 @@ $(function () {
 
 	if (TXID) {
 		$("#waiting-close").click(function() {
+			$("#waitingbox").modal('hide');
 			window.open(window.returnURL);
 		});
 
@@ -171,7 +172,6 @@ $(function () {
 			$("#waiting-title").text("Finish!");
 			$("#waiting-p1").text("Result code: "+result.code);
 			$("#waiting-p2").text("Message: "+result.message);
-			//$("#waitingbox").modal('hide');
 		});
 		return;
 	}
