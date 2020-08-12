@@ -89,7 +89,7 @@ window.initWallet().then(function(result) {
 	else {
 		var data = getProfile("userInfo");
 		if (data) {
-			identityData = JSON.parse(data);
+			identityData = data;
 		}
 	}
 
