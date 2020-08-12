@@ -123,8 +123,9 @@ $(function () {
 				var url = "https://launch.elaphant.app/?appName="+encodeURIComponent(appTitle)+
 						  	"&appTitle="+encodeURIComponent(appTitle)+
 						  	"&autoRedirect=True&redirectURL="+encodeURIComponent(elaphantURL);
-				//window.location.href = url;
-				window.open(url);
+				window.location.href = url;
+				//window.open(url);
+				return false;
 			}
 		},
 		created () {
@@ -161,7 +162,9 @@ $(function () {
 	if (TXID) {
 		$("#waiting-close").click(function() {
 			$("#waitingbox").modal('hide');
-			window.open(window.returnURL);
+			//window.open(window.returnURL);
+			window.location.href = window.returnURL;
+			return false;
 		});
 
 		$("#waitingbox").modal({backdrop: 'static', keyboard: false});

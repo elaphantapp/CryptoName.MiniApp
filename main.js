@@ -56,7 +56,9 @@ window.initWallet().then(function(result) {
 				  	"&appTitle="+encodeURIComponent(appTitle)+
 				  	"&autoRedirect=True&redirectURL="+encodeURIComponent(elaphantURL);
 
-		window.open(url, "_blank");
+		//window.open(url, "_blank");
+		window.location.href = url;
+		return false;
 	}
 
 	window.logout = function() {
@@ -134,7 +136,9 @@ window.initWallet().then(function(result) {
 			register() {
 				if (identityData) {
 					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&Data="+encodeURIComponent(identityData)+"&r="+encodeURIComponent(window.returnURL);
-					window.open(url, "_blank");
+					//window.open(url, "_blank");
+					window.location.href = url;
+					return false;
 				}
 				else {
 					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&r="+encodeURIComponent(window.returnURL)
