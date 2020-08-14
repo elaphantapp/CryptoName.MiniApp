@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <title>CryptoName - Elastos Name</title>
+  <link href="images/favicon.png" rel="icon">
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <style>
+     .bd-placeholder-img {
+       font-size: 1.125rem;
+       text-anchor: middle;
+       -webkit-user-select: none;
+       -moz-user-select: none;
+       -ms-user-select: none;
+       user-select: none;
+     }
+     @media (min-width: 768px) {
+       .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+       }
+     }
+  </style>
+  <!-- Custom styles for this template -->
+  <link href="register.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div id="registerPage" class="container">
+     <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="images/logo.png" alt="" width="72" height="72">
+        <h2>CryptoName</h2>
+        <p class="lead">This is a service for proxy registration of CryptoName. We will use the information in your wallet to register your name. After success, it will be transferred to your sidechain wallet address.</p>
+     </div>
+     <div class="row">
+        <div class="col-11 mx-auto order-md-1">
+           <form class="needs-validation" novalidate>
+              <h4 class="mb-3">Name</h4>
+              <div class="input-group mb-3 shadow-sm">
+                 <input type="text" class="form-control rounded" aria-label="Recipient's username" aria-describedby="basic-addon2" v-model="cryptoName" readonly>
+                 <div class="input-group-append rounded">
+                    <span class="input-group-text" id="basic-addon2">.elastos.name</span>
+                 </div>
+              </div>
+              <hr class="mb-4">
+              <h4 class="mb-3">Basic info</h4>
+              <div class="mb-3" v-for="(value, key) in domainInfo">
+                 <label class="text-right">{{ key }}</label>
+                 <input type="text" class="form-control" v-model="value" required>
+                 <button class="btn btn-primary btn-sm m-1" type="button" @click="submitChange()">modify</button>
+                 <button class="btn btn-primary btn-sm m-1" type="button" @click="submitChange()">remove</button>
+              </div>
+
+              <hr class="mb-4">
+              <h4 class="mb-3">Add Key</h4>
+              <div class="mb-3 ">
+                 <label class="coltext-right">Key:</label>
+                 <input type="text" class="form-control" required>
+                 <label class="coltext-right">Value:</label>
+                 <input type="text" class="form-control" required>
+                 <button class="btn btn-primary btn-sm m-1" type="button" @click="submitChange()">save</button>
+              </div>
+           </form>
+        </div>
+     </div>
+     <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">Powered by <a href="https://elamessenger.elaphant.app/channel.html?n=elaphant">@Elaphant</a></p>
+        <ul class="list-inline">
+           <a href="https://t.me/CryptoName1" class="Telegram"><i class="fa fa-telegram"></i></a>
+           <a href="https://twitter.com/CryptoNameOrg" class="twitter"><i class="fa fa-twitter"></i></a>
+           <a href="https://www.instagram.com/cryptoname_/?hl=en" class="instagram"><i class="fa fa-instagram"></i></a>
+        </ul>
+     </footer>
+  </div>
+  <div id="waitingbox" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 id="waiting-title" class="modal-title">Processing...</h5>
+        </div>
+        <div class="modal-body">
+          <p id="waiting-p1">Registering your name, Please wait a moment...</p>
+          <p id="waiting-p2" style="word-break:break-all;"></p>
+        </div>
+        <div class="modal-footer">
+          <!--button type="button" class="btn btn-primary">Save changes</button-->
+          <button id="waiting-close" type="button" class="btn btn-secondary">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="js/jquery-3.5.1.slim.min.js"></script>
+  <script>window.jQuery</script>
+  <script src="js/bootstrap.bundle.js"></script>
+  <script src="js/web3.min.js"></script>
+  <script src="js/vue.min.js"></script>
+  <script src="js/vue-clipboard.min.js"></script>
+  <script src="js/sha256.min.js"></script>
+  <script src="js/elastos-wallet-api.js"></script>
+  <script src="js/domain_abi.js"></script>
+  <script src="js/crypton.js"></script>
+  <script src="js/web3bridge.js"></script>
+  <script src="edit.js"></script>
+</body>
+</html>

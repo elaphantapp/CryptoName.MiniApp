@@ -5,7 +5,6 @@ $(function () {
 	window.returnURL = window.location.href.split('?')[0];
 
 	let params = new URLSearchParams(url.search.substring(1));
-	var identityData = params.get("Data");
 	var TXID = params.get("TXID");
 
 	window.cryptoName = params.get("n");
@@ -59,7 +58,8 @@ $(function () {
 				  	"&appTitle="+encodeURIComponent(appTitle)+
 				  	"&autoRedirect=True&redirectURL="+encodeURIComponent(elaphantURL);
 
-		window.location.href = url;		
+		window.location.href = url;
+		return
 	}
 
 	window.logout = function() {
@@ -75,16 +75,8 @@ $(function () {
 		el:"#registerPage",
 		data: {
 			"cryptoName" : window.cryptoName.trim().toLowerCase(),
-			"namePrice" : 0.0,
-			"DID" : "",
-			"elaAddress" : "",
-			"btcAddress" : "",
 			"ethAddress" : "",
-			"publicKey" : "",
-			"signature" : "",
-			"depositAmount" : 0.5,
-			"totalAmount" : 0.0,
-			"enableMessenger" : 0
+			"domainInfo" : {}
 		},
 		methods: {
 			pay : function() {
@@ -132,38 +124,25 @@ $(function () {
 			}
 		},
 		created () {
+			Crypton.QueryName(cryptoName).then(function(result) {
+				registerPage.cryptoName = result.name;
+				registerPage.ethAddress = result["eth.address"];
+				registerPage.domainInfo = result;
+			});
 		}
 	});
 
-	if (identityData) {
-		var identity = JSON.parse(identityData);
-
-		registerPage.cryptoName = window.cryptoName;
-		registerPage.DID = identity.DID;
-		registerPage.elaAddress = identity.ELAAddress;
-		registerPage.ethAddress = identity.ETHAddress;
-		registerPage.btcAddress = identity.BTCAddress;
-		registerPage.publicKey = identity.PublicKey;
-	}
 
 	initWallet().then(function(result) {
 		if (!window.crypton)
 			alert("Init Web3 Provider failed, please restart browser and try again.");
-		var level = 0;
-		if (cryptoName.length < 3)
-			level = 1;
-		else if (cryptoName.length == 3)
-			level = 2;
-		else
-			level = 3;
-		window.crypton.getCurrentPrice(level).then(function(price) {
-			registerPage.namePrice = price;
-		});
+
 	});
 
 	if (TXID) {
 		$("#waiting-close").click(function() {
 			$("#waitingbox").modal('hide');
+			//window.open(window.returnURL);
 			window.location.href = window.returnURL;
 			return false;
 		});

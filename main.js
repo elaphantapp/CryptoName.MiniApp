@@ -172,6 +172,11 @@ window.initWallet().then(function(result) {
 				}
 
 			},
+			editName : function(name) {
+				var url = window.returnURL+"/editCryptoName.html?n="+name+"&r="+encodeURIComponent(window.returnURL);
+				window.location.href = url;
+				return false;
+			}
 
 		},
 		created () {

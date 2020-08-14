@@ -16,28 +16,8 @@ else {
 
 window.initWallet = function initWallet() {
     return new Promise((resolve, reject) => {
-        if (typeof window.ethereum === 'undefined') {
-            window.web3 = new Web3(new Web3.providers.HttpProvider(window.provider_url));
-			window.crypton = new Crypton(window.abiArray, window.contract_address, window.web3);
-            resolve("http_provider");
-        } else {
-            //resolve(1);
-            ethereum.enable().then(() => {
-                window.web3 = new Web3(ethereum);
-                var selectedAddress = ethereum.selectedAddress;
-                window.crypton = new Crypton(window.abiArray, window.contract_address, window.web3);
-                resolve(selectedAddress);
-
-
-            }).catch((reason) => {
-                reject(reason);
-            });
-            ethereum.on('accountsChanged', function (accounts) {
-                window.location.href = window.location.href;
-            });
-            ethereum.on('networkChanged', function (accounts) {
-                window.location.href = window.location.href;
-            });
-        }
+        window.web3 = new Web3(new Web3.providers.HttpProvider(window.provider_url));
+        window.crypton = new Crypton(window.abiArray, window.contract_address, window.web3);
+        resolve("http_provider");
     });
 };
