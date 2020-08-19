@@ -11,6 +11,8 @@ window.initWallet().then(function(result) {
 	var identityData = params.get("Data");
 	var currentAddress = params.get("address");
 	var tabPage = params.get("tab");
+	var newName = params.get("new");
+	var newTxid = params.get("TXID");
 
 	var setProfile = function(key, value) {
 		return localStorage.setItem(key, value);
@@ -22,6 +24,33 @@ window.initWallet().then(function(result) {
 
 	var removeProfile = function(key) {
 		return localStorage.removeItem(key);
+	}
+
+	if (newTxid && newName) {
+
+		fetch(window.trigger_url+"?TXID="+newTxid).then( function (response) {
+			return response.json();
+		}).then(function(result) {
+		});
+
+		var temp = getProfile("registering");
+		if (!temp)
+			temp = "[]";
+
+		var processing = JSON.parse(temp);
+		for (var tt in processing) {
+			if (processing[tt].name == newName) {
+				processing.splice(tt, 1);
+			}
+		}
+		processing.push({
+			"name" : newName,
+			"txid" : newTxid
+		});
+
+		setProfile("registering", JSON.stringify(processing));
+
+		
 	}
 
 	window.login = function(returnUrl, force) {
@@ -155,17 +184,33 @@ window.initWallet().then(function(result) {
 		el:"#account-main",
 		data: {
 			"loaded" : false,
-			"myNames" : []
+			"myNames" : [],
+			"registering" : []
+
 		},
 		methods: {
 			updateMyNames : function(address, force) {
 				var pthis = this;
+
+				var temp = getProfile("registering");
+				if (temp)
+					this.registering = JSON.parse(temp);
 
 				if (address && address !="") {
 					this.myNames = JSON.parse(getProfile(address+"_names"));
 
 					window.crypton.getOwnerNameTokens(address).then(function(result) {
 						pthis.myNames = result;
+
+						if (pthis.registering.length > 0) {
+							for (var tt in result) {
+								for (var nn in pthis.registering) {
+									if (result[tt].name == pthis.registering[nn].name)
+										pthis.registering.splice(nn, 1);
+										setProfile("registering", JSON.stringify(pthis.registering));
+								}
+							}
+						}
 						setProfile(address+"_names", JSON.stringify(result));
 						setProfile(address+"_names_timestamp", parseInt(Date.now()/1000));
 					});

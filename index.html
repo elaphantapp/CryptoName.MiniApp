@@ -86,8 +86,18 @@
               </div>
             </div>
 
+            <div class="card rounded-lg mx-auto mb-3" style="width: 20rem; height: auto;" v-for="(item, index) in registering">
+              <div class="card-body row">
+                <div class="col-10">
+                  <h4 class="card-title font-weight-bold"><a class="text-muted" href="/">{{ item.name }}</a></h4>
+                  <p class="card-text text-muted" style="font-size: 0.8rem">processing...</p>
+                </div>
+                <div class="col">
+                </div>
+              </div>
+            </div>
 
-            <div class="card  rounded-lg mx-auto mb-3" style="width: 20rem; height: auto; ">
+            <div class="card rounded-lg mx-auto mb-3" style="width: 20rem; height: auto; ">
               <div class="card-body row">
                 <div class="col-10">
                   <h4 class="card-title font-weight-bold"><a class="text-muted" href="/">+New</a></h4>
