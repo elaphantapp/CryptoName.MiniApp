@@ -135,16 +135,16 @@ $(function () {
 		}
 	});
 
-	if (window.userInfo) {
-		registerPage.cryptoName = window.cryptoName;
-		registerPage.DID = window.userInfo.DID;
-		registerPage.elaAddress = window.userInfo.ELAAddress;
-		registerPage.ethAddress = window.userInfo.ETHAddress;
-		registerPage.btcAddress = window.userInfo.BTCAddress;
-		registerPage.publicKey = window.userInfo.PublicKey;
-	}
 
 	initWallet().then(function(result) {
+		if (window.userInfo) {
+			registerPage.cryptoName = window.cryptoName;
+			registerPage.DID = window.userInfo.DID;
+			registerPage.elaAddress = window.userInfo.ELAAddress;
+			registerPage.ethAddress = window.userInfo.ETHAddress;
+			registerPage.btcAddress = window.userInfo.BTCAddress;
+			registerPage.publicKey = window.userInfo.PublicKey;
+		}
 		if (!window.crypton)
 			alert("Init Web3 Provider failed, please restart browser and try again.");
 		var level = 0;
