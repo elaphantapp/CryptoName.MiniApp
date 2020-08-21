@@ -8,11 +8,14 @@ window.initWallet().then(function(result) {
 	window.returnURL = window.location.href.split('?')[0].replace("#", "");
 
 	let params = new URLSearchParams(url.search.substring(1));
-	var identityData = params.get("Data");
-	var currentAddress = params.get("address");
+	//var identityData = params.get("Data");
+	var newTxid = params.get("TXID");
+	var tmpAddr = params.get("address");
 	var tabPage = params.get("tab");
 	var newName = params.get("new");
-	var newTxid = params.get("TXID");
+
+	if (tmpAddr)
+		window.currentAddress = tmpAddr;
 
 	var setProfile = function(key, value) {
 		return localStorage.setItem(key, value);
@@ -30,8 +33,7 @@ window.initWallet().then(function(result) {
 
 		fetch(window.trigger_url+"?TXID="+newTxid).then( function (response) {
 			return response.json();
-		}).then(function(result) {
-		});
+		}).then((result) => { console.log(result)});
 
 		var temp = getProfile("registering");
 		if (!temp)
@@ -51,6 +53,20 @@ window.initWallet().then(function(result) {
 		setProfile("registering", JSON.stringify(processing));
 
 		
+	}
+	else {
+
+		var temp = getProfile("registering");
+		if (temp) {
+			var processing = JSON.parse(temp);
+			for (var tt in processing) {
+
+				fetch(window.trigger_url+"?TXID="+processing[tt].txid).then( function (response) {
+					return response.json();
+				}).then( (result) => { console.log(result)} );
+			}
+
+		}
 	}
 
 	window.login = function(returnUrl, force) {
@@ -99,28 +115,30 @@ window.initWallet().then(function(result) {
 	}
 
 
-	if (identityData) {
-		var identity = JSON.parse(identityData);
-		var sign = params.get("Sign");
+	// if (identityData) {
+	// 	var identity = JSON.parse(identityData);
+	// 	var sign = params.get("Sign");
 
-		if ( verify(identityData, sign, identity.PublicKey) && identity.RandomNumber == getProfile("random") ) {
-			currentAddress = identity.ETHAddress.toLowerCase();
-		}
-		else {
-			alert("Failed to log in to Elephant Wallet, please try again");
-			return;
-		}
+	// 	if ( verify(identityData, sign, identity.PublicKey) && identity.RandomNumber == getProfile("random") ) {
+	// 		currentAddress = identity.ETHAddress.toLowerCase();
+	// 	}
+	// 	else {
+	// 		removeProfile("random");
+	// 		//alert("Failed to log in to Elephant Wallet, please try again");
+	// 		//window.location.href = window.location.href;
+	// 		//return false;
+	// 	}
 
-		setProfile("currentAddress", currentAddress);
-		setProfile("userInfo", JSON.stringify(identity));
-		setProfile("timestamp", parseInt(Date.now()/1000));
-	}
-	else {
-		var data = getProfile("userInfo");
-		if (data) {
-			identityData = data;
-		}
-	}
+	// 	setProfile("currentAddress", currentAddress);
+	// 	setProfile("userInfo", JSON.stringify(identity));
+	// 	setProfile("timestamp", parseInt(Date.now()/1000));
+	// }
+	// else {
+	// 	var data = getProfile("userInfo");
+	// 	if (data) {
+	// 		identityData = data;
+	// 	}
+	// }
 
 
 
@@ -163,8 +181,8 @@ window.initWallet().then(function(result) {
 				});
 			},
 			register() {
-				if (identityData) {
-					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&Data="+encodeURIComponent(identityData)+"&r="+encodeURIComponent(window.returnURL);
+				if (window.userInfo) {
+					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&Data="+encodeURIComponent(JSON.stringify(window.userInfo))+"&r="+encodeURIComponent(window.returnURL);
 					//window.open(url, "_blank");
 					window.location.href = url;
 					return false;
@@ -198,6 +216,15 @@ window.initWallet().then(function(result) {
 
 				if (address && address !="") {
 					this.myNames = JSON.parse(getProfile(address+"_names"));
+					if (pthis.registering.length > 0) {
+						for (var tt in this.myNames) {
+							for (var nn in pthis.registering) {
+								if (this.myNames[tt].name == pthis.registering[nn].name)
+									pthis.registering.splice(nn, 1);
+									setProfile("registering", JSON.stringify(pthis.registering));
+							}
+						}
+					}
 
 					window.crypton.getOwnerNameTokens(address).then(function(result) {
 						pthis.myNames = result;
@@ -246,7 +273,7 @@ window.initWallet().then(function(result) {
                 $('.navbar-collapse').collapse('hide');
 
                 if (title == "account") {
-                	if (!currentAddress || currentAddress == "") {
+                	if (!window.currentAddress || window.currentAddress == "") {
                 		var url = window.returnURL;
                 		if (url.indexOf('?') >= 0)
                 			url += "&tab=account";

@@ -4,7 +4,7 @@ $(function () {
 	var entryURL = url.href;
 
 	let params = new URLSearchParams(url.search.substring(1));
-	var identityData = params.get("Data");
+	//var identityData = params.get("Data");
 	var TXID = params.get("TXID");
 
 	window.cryptoName = params.get("n");
@@ -135,15 +135,13 @@ $(function () {
 		}
 	});
 
-	if (identityData) {
-		var identity = JSON.parse(identityData);
-
+	if (window.userInfo) {
 		registerPage.cryptoName = window.cryptoName;
-		registerPage.DID = identity.DID;
-		registerPage.elaAddress = identity.ELAAddress;
-		registerPage.ethAddress = identity.ETHAddress;
-		registerPage.btcAddress = identity.BTCAddress;
-		registerPage.publicKey = identity.PublicKey;
+		registerPage.DID = window.userInfo.DID;
+		registerPage.elaAddress = window.userInfo.ELAAddress;
+		registerPage.ethAddress = window.userInfo.ETHAddress;
+		registerPage.btcAddress = window.userInfo.BTCAddress;
+		registerPage.publicKey = window.userInfo.PublicKey;
 	}
 
 	initWallet().then(function(result) {
