@@ -76,51 +76,48 @@ $(function () {
 		data: {
 			"cryptoName" : window.cryptoName.trim().toLowerCase(),
 			"ethAddress" : "",
-			"domainInfo" : {}
+			"domainInfo" : {},
+			"newKey" : "",
+			"newValue" : ""
 		},
 		methods: {
-			pay : function() {
-
-				var domainInfo = {
-					"name": this.cryptoName.trim().toLowerCase(),
-					"did": this.DID,
-					"publickey": this.publicKey.trim(),
-					"ela.address": this.elaAddress.trim(),
-					"btc.address": this.btcAddress.trim(),
-					"eth.address": this.ethAddress.trim().toLowerCase(),
-					"messenger": this.signature.trim()
-				};
-				var proxyAddress = "Eavc2YWHuMD5GdA7vagi6eFKUQHDK5qHeF";
+			submitChange : function(type, key, value) {
 				var appTitle = "CryptoName";
 				var developerDID = "ibxNTG1hBPK1rZuoc8fMy4eFQ96UYDAQ4J";
 				var appID = "ac89a6a3ff8165411c8426529dccde5cd44d5041407bf249b57ae99a6bfeadd60f74409bd5a3d81979805806606dd2d55f6979ca467982583ac734cf6f55a290";
 				var appName = "Mini Apps";
 				var publicKey = "034c51ddc0844ff11397cc773a5b7d94d5eed05e7006fb229cf965b47f19d27c55";
+				var amount = 0;
+				var gasPrice = 1000000000;
+				var gas = 10000;
+				var abiData;
+
+				if (type == "set") 
+					abiData = window.crypton._contact.methods.setKeyword(window.cryptoName, key, value).encodeABI();
+				else if (type == "remove")
+					abiData = window.crypton._contact.methods.removeKeyword(window.cryptoName, key).encodeABI();
+
 				var returnUrl = window.location.href.split('?')[0] + "?r=" + encodeURIComponent(window.returnURL);
-				//var callbackUrl = window.trigger_url;
-				var orderID = "Referrer:elaphant;Owner:"+this.ethAddress+";Data:"+btoa(JSON.stringify(domainInfo));
 
-				var elaphantURL = "elaphant://elapay?DID=" + developerDID +
-								 "&AppID=" + appID +
-								 "&AppName=" + encodeURIComponent(appName) +
-								 "&Description=" + encodeURIComponent(appName) +
-								 "&PublicKey="+ publicKey +
-								 "&OrderID=" + orderID +
-								 "&CoinName=ELA"+
-								 "&ReceivingAddress=" + proxyAddress +
-								 "&Amount=" + this.totalAmount +
-								 "&ReturnUrl=" + encodeURIComponent(returnUrl);
-								 //"&CallbackUrl=" + encodeURIComponent(callbackUrl);
+				var elaphantURL = "elaphant://calleth?DID=" + developerDID +
+					"&AppID=" + appID +
+					"&AppName=" + encodeURIComponent(appName) +
+					"&Description=" + encodeURIComponent(appName) +
+					"&PublicKey=" + publicKey +
+					//"&OrderID=" + orderID +
+					"&CoinName=Ethsc" +
+					"&to=" + window.contract_address +
+					"&value=" + amount +
+					"&price=" + gasPrice +
+					"&gas=" + gas +
+					"&data=" + abiData +
+					"&ReturnUrl=" + encodeURIComponent(returnUrl);
 
-				var url = "https://launch.elaphant.app/?appName="+encodeURIComponent(appTitle)+
-						  	"&appTitle="+encodeURIComponent(appTitle)+
-						  	"&autoRedirect=True&redirectURL="+encodeURIComponent(elaphantURL);
+				var url = "https://launch.elaphant.app/?appName=" + encodeURIComponent(appTitle) +
+					"&appTitle=" + encodeURIComponent(appTitle) +
+					"&autoRedirect=True&redirectURL=" + encodeURIComponent(elaphantURL);
 				window.location.href = url;
-				//window.open(url);
 				return false;
-			},
-			submitChange : function() {
-
 			}
 		},
 		created () {
@@ -131,7 +128,6 @@ $(function () {
 			});
 		}
 	});
-
 
 	initWallet().then(function(result) {
 		if (!window.crypton)

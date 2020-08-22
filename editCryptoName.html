@@ -49,18 +49,18 @@
               <div class="mb-3" v-for="(value, key) in domainInfo">
                  <label class="text-right">{{ key }}</label>
                  <input type="text" class="form-control" v-model="value" required>
-                 <button class="btn btn-primary btn-sm m-1" type="button" @click="submitChange()">modify</button>
-                 <button class="btn btn-primary btn-sm m-1" type="button" @click="submitChange()">remove</button>
+                 <button class="btn btn-primary btn-sm m-1" type="button" @click="submitChange('set', key, value)">Modify</button>
+                 <button class="btn btn-primary btn-sm m-1" type="button" @click="submitChange('remove', key, '')">Remove</button>
               </div>
 
               <hr class="mb-4">
               <h4 class="mb-3">Add Key</h4>
               <div class="mb-3 ">
                  <label class="coltext-right">Key:</label>
-                 <input type="text" class="form-control" required>
+                 <input type="text" class="form-control" v-model="newKey" required>
                  <label class="coltext-right">Value:</label>
-                 <input type="text" class="form-control" required>
-                 <button class="btn btn-primary btn-sm m-1" type="button" @click="submitChange()">save</button>
+                 <input type="text" class="form-control" v-model="newValue" required>
+                 <button class="btn btn-primary btn-sm m-1" type="button" @click="submitChange('set', newKey, newValue)">New</button>
               </div>
            </form>
         </div>
