@@ -18,13 +18,21 @@ class Crypton {
 
 	constructor (abiArray, contractAddress, web3) {
 		this._web3 = web3;
+		this._contractAddress = contractAddress;
 		this._contact = new this._web3.eth.Contract(abiArray, contractAddress);
 	}
 
 	async _init_account (force) {
 		if (!force && this._account) return this._account;
-
 		var pthis = this;
+
+		if (window.ethereum) {
+			return window.ethereum.request({ method: 'eth_requestAccounts' }).then(function(address) {
+				if (address.length > 0)
+					pthis._account = address[0];
+	        });
+        }
+
 		return this._web3.eth.getAccounts()
 			.then(function(accounts) {
 				if (!accounts || accounts.length == 0)
@@ -36,14 +44,18 @@ class Crypton {
 			});
 	}
 
-	async _generate_option (price) {
+	async _generate_option (amount, abiData) {
 		var pthis = this;
 		return this._web3.eth.getGasPrice()
 			.then(function(gasPrice) {
-				if (price)
-					return { from: pthis._account, gasPrice: gasPrice, gas: 1000000, value: pthis._web3.utils.toWei(price, "ether") };
-				else
-					return { from: pthis._account, gasPrice: gasPrice, gas: 1000000, value:'0' };
+				var result = { to: pthis._contractAddress, from: pthis._account, gasPrice: '0x'+parseInt(gasPrice).toString(16), gas: '0x'+parseInt(1000000).toString(16), value:'0x0' };
+
+				if (amount && parseFloat(amount) > 0)
+					result.value = '0x'+(pthis._web3.utils.toWei(amount+"", "ether")+'').toString(16);
+				if (abiData)
+					result["data"] = abiData;
+
+				return result;
 			});
 	}
 
@@ -273,104 +285,185 @@ class Crypton {
 
 	async transfer (to, name) {
 		var pthis = this;
+		var abiData = this._contact.methods.transfer(pthis._account, to, name).encodeABI();
 		return this._init_account()
 			.then(function() {
-				return pthis._generate_option("0.1");
+				return pthis._generate_option("0.1", abiData);
 			})
 			.then(function(option) {
-        		return pthis._contact.methods.transfer(pthis._account, to, name).send(option);
+				if (window.ethereum) {
+					window.ethereum.request({ method: 'eth_sendTransaction', params: [option] });
+					//.then(console.log).catch(err=>console.log);
+			    }
+			    else {
+			    	reject("Not found ethereum.");
+			    }
 			});
 	}
 
 	async renew (to, name) {
 		var pthis = this;
+		var abiData = this._contact.methods.renewToken(pthis._account, to, name).encodeABI();
 		return this._init_account()
 			.then(function() {
 				return pthis.getRenewalPrice(name);
 			})
 			.then(function(price) {
-				return pthis._generate_option(price);
+				return pthis._generate_option(price, abiData);
 			})
 			.then(function(option) {
-        		return pthis._contact.methods.renewToken(pthis._account, to, name).send(option);
+				if (window.ethereum) {
+					window.ethereum.request({ method: 'eth_sendTransaction', params: [option] });
+					//.then(console.log).catch(err=>console.log);
+			    }
+			    else {
+			    	reject("Not found ethereum.");
+			    }
 			});
 	}
 
 	async registerName (name, price) {
 		var pthis = this;
+		var abiData = this._contact.methods.externalMint(name).encodeABI();
 		return this._init_account()
 			.then(function() {
-				return pthis._generate_option(price);
+				return pthis._generate_option(price, abiData);
 			})
 			.then(function(option) {
-				return pthis._contact.methods.externalMint(name).send(option);	
+				if (window.ethereum) {
+					window.ethereum.request({ method: 'eth_sendTransaction', params: [option] });
+					//.then(console.log).catch(err=>console.log);
+			    }
+			    else {
+			    	reject("Not found ethereum.");
+			    }
 			});
 	}
 
 	async generateName (to, name) {
 		var pthis = this;
+		var abiData = this._contact.methods.mint(to, name).encodeABI();
 		return this._init_account()
 			.then(function() {
-				return pthis._generate_option();
+				return pthis._generate_option(0, abiData);
 			})
 			.then(function(option) {
-				return pthis._contact.methods.mint(to, name).send(option);
+				if (window.ethereum) {
+					window.ethereum.request({ method: 'eth_sendTransaction', params: [option] });
+					//.then(console.log).catch(err=>console.log);
+			    }
+			    else {
+			    	reject("Not found ethereum.");
+			    }
 			});
 	}
 
 	async approveName (to, name) {
 		var pthis = this;
+		var tokenId = pthis._web3.utils.hexToNumberString("0x"+sha256(name));
+		var abiData = this._contact.methods.approve(to, tokenId).encodeABI();
 		return this._init_account()
 			.then(function() {
-				return pthis._generate_option();
+				return pthis._generate_option(0, abiData);
 			})
 			.then(function(option) {
-				var tokenId = pthis._web3.utils.hexToNumberString("0x"+sha256(name));
-				return pthis._contact.methods.approve(to, tokenId).send(option);
+				if (window.ethereum) {
+					window.ethereum.request({ method: 'eth_sendTransaction', params: [option] });
+					//.then(console.log).catch(err=>console.log);
+			    }
+			    else {
+			    	reject("Not found ethereum.");
+			    }
 			});
 	}
 
 	async recycleToken (name) {
 		var pthis = this;
+		var abiData = this._contact.methods.recycleToken(name).encodeABI();
 		return this._init_account()
 			.then(function() {
-				return pthis._generate_option();
+				return pthis._generate_option(0, abiData);
 			})
 			.then(function(option) {
-				return pthis._contact.methods.recycleToken(name).send(option);
+				if (window.ethereum) {
+					window.ethereum.request({ method: 'eth_sendTransaction', params: [option] });
+					//.then(console.log).catch(err=>console.log);
+			    }
+			    else {
+			    	reject("Not found ethereum.");
+			    }
 			});
 	}
 
 	async setBasicInfo (name, btc, eth, ela, did, pubkey) {
 		var pthis = this;
+		var abiData = this._contact.methods.setBasicInfo(name, btc, eth, ela, did, pubkey).encodeABI();
 		return this._init_account()
 			.then(function() {
-				return pthis._generate_option();
+				return pthis._generate_option(0, abiData);
 			})
 			.then(function(option) {
-				return pthis._contact.methods.setBasicInfo(name, btc, eth, ela, did, pubkey).send(option);
+				if (window.ethereum) {
+					window.ethereum.request({ method: 'eth_sendTransaction', params: [option] });
+					//.then(console.log).catch(err=>console.log);
+			    }
+			    else {
+			    	reject("Not found ethereum.");
+			    }
 			});
 	}
 
 	async setKeyword (name, key, value) {
 		var pthis = this;
+		var abiData = this._contact.methods.setKeyword(window.cryptoName, key, value).encodeABI();
 		return this._init_account()
 			.then(function() {
-				return pthis._generate_option();
+				return pthis._generate_option(0, abiData);
 			})
 			.then(function(option) {
-				return pthis._contact.methods.setKeyword(name, key, value).send(option);
+				if (window.ethereum) {
+					window.ethereum.request({ method: 'eth_sendTransaction', params: [option] });
+					//.then(console.log).catch(err=>console.log);
+			    }
+			    else {
+			    	reject("Not found ethereum.");
+			    }
+			});
+	}
+
+	async removeKeyword (name, key) {
+		var pthis = this;
+		var abiData = this._contact.methods.removeKeyword(name, key).encodeABI();
+		return this._init_account()
+			.then(function() {
+				return pthis._generate_option(0, abiData);
+			})
+			.then(function(option) {
+				if (window.ethereum) {
+					window.ethereum.request({ method: 'eth_sendTransaction', params: [option] });
+					//.then(console.log).catch(err=>console.log);
+			    }
+			    else {
+			    	reject("Not found ethereum.");
+			    }
 			});
 	}
 
 	async withdraw (value) {
 		var pthis = this;
+		var abiData = this._contact.methods.withdraw(value).encodeABI();
 		return this._init_account()
 			.then(function() {
-				return pthis._generate_option();
+				return pthis._generate_option(0, abiData);
 			})
 			.then(function(option) {
-				return pthis._contact.methods.withdraw(value).send(option);
+				if (window.ethereum) {
+					window.ethereum.request({ method: 'eth_sendTransaction', params: [option] });
+					//.then(console.log).catch(err=>console.log);
+			    }
+			    else {
+			    	reject("Not found ethereum.");
+			    }
 			});
 	}
 
@@ -391,7 +484,7 @@ class Crypton {
 	}
 
 	async getNameProfile (name) {
-		var nameInfo = {"name":name};
+		var nameInfo = {"name": name};
 		var pthis = this;
 		return this._init_account()
 			.then(function(option) {
@@ -414,17 +507,6 @@ class Crypton {
 			})
 			.then (function (ret) {
 				return nameInfo;
-			});
-	}
-
-	async removeKeyword (name, key) {
-		var pthis = this;
-		return this._init_account()
-			.then(function() {
-				return pthis._generate_option();
-			})
-			.then(function(option) {
-				return pthis._contact.methods.removeKeyword(name, key).send(option);
 			});
 	}
 

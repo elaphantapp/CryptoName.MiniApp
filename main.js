@@ -63,7 +63,9 @@ window.initWallet().then(function(result) {
 
 				fetch(window.trigger_url+"?TXID="+processing[tt].txid).then( function (response) {
 					return response.json();
-				}).then( (result) => { console.log(result)} );
+				}).then( (result) => { 
+					processing[tt]["message"] = result.message;
+				});
 			}
 
 		}
@@ -79,26 +81,21 @@ window.initWallet().then(function(result) {
 		}
 
 		var random = Math.floor(Math.random() * 100000000);
-		setProfile("random", random);
+		setProfile("login_random", random);
 
-		var appTitle = "CryptoName";
-		var developerDID = "ibxNTG1hBPK1rZuoc8fMy4eFQ96UYDAQ4J";
-		var appID = "ac89a6a3ff8165411c8426529dccde5cd44d5041407bf249b57ae99a6bfeadd60f74409bd5a3d81979805806606dd2d55f6979ca467982583ac734cf6f55a290";
-		var appName = "Mini Apps";
-		var publicKey = "034c51ddc0844ff11397cc773a5b7d94d5eed05e7006fb229cf965b47f19d27c55";
 		var returnUrl = returnUrl || window.returnURL || "https://cryptoname.elaphant.app";
 
 		var elaphantURL = "elaphant://identity?" +
-							"AppID=" + appID +
-							"&AppName=" + encodeURIComponent(appName) +
+							"AppID=" + window.ela_appID +
+							"&AppName=" + encodeURIComponent(window.ela_appName) +
 							"&RandomNumber="+random+
-							"&DID=" + developerDID +
-							"&PublicKey=" + publicKey +
+							"&DID=" + window.ela_developerDID +
+							"&PublicKey=" + window.ela_publicKey +
 							"&ReturnUrl=" + encodeURIComponent(returnUrl) +
 							"&RequestInfo=ELAAddress,BTCAddress,ETHAddress";
 
-		var url = "https://launch.elaphant.app/?appName="+encodeURIComponent(appTitle)+
-				  	"&appTitle="+encodeURIComponent(appTitle)+
+		var url = "https://launch.elaphant.app/?appName="+encodeURIComponent(window.ela_appTitle)+
+				  	"&appTitle="+encodeURIComponent(window.ela_appTitle)+
 				  	"&autoRedirect=True&redirectURL="+encodeURIComponent(elaphantURL);
 
 		//window.open(url, "_blank");
@@ -182,7 +179,7 @@ window.initWallet().then(function(result) {
 			},
 			register() {
 				if (window.userInfo) {
-					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&Data="+encodeURIComponent(JSON.stringify(window.userInfo))+"&r="+encodeURIComponent(window.returnURL);
+					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&r="+encodeURIComponent(window.returnURL);
 					//window.open(url, "_blank");
 					window.location.href = url;
 					return false;

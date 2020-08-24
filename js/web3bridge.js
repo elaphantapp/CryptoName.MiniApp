@@ -1,5 +1,5 @@
 
-window.TEST = true;
+window.TEST = false;
 
 if (window.TEST) {
 	window.elaeth_blocknumber_url = "https://explorer.elaeth.io/api?module=block&action=eth_block_number";
@@ -10,9 +10,16 @@ if (window.TEST) {
 else {
 	window.elaeth_blocknumber_url = "https://explorer.elaeth.io/api?module=block&action=eth_block_number";
 	window.contract_address = "0xc4032babad2b76c39abec3c4e365611de78528ed";
-    window.provider_url = "https://mainrpc.elaeth.io";
+    window.provider_url = "https://escrpc.elaphant.app";
+    window.trigger_url = "https://api.elastos.name/nameInfo/buy";
 }
 
+window.ela_proxyAddress = "EZAMcSPQAmjAWEBi41z2edmS6u9LjuVNYB";
+window.ela_appTitle = "CryptoName";
+window.ela_developerDID = "ibxNTG1hBPK1rZuoc8fMy4eFQ96UYDAQ4J";
+window.ela_appID = "ac89a6a3ff8165411c8426529dccde5cd44d5041407bf249b57ae99a6bfeadd60f74409bd5a3d81979805806606dd2d55f6979ca467982583ac734cf6f55a290";
+window.ela_appName = "Mini Apps";
+window.ela_publicKey = "034c51ddc0844ff11397cc773a5b7d94d5eed05e7006fb229cf965b47f19d27c55";
 
 window.initWallet = function initWallet() {
     const url = new URL(window.location.href.replace("#", ""));
