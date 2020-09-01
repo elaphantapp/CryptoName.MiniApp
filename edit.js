@@ -86,45 +86,16 @@ initWallet().then(function(result) {
 		},
 		methods: {
 			submitChange : function(type, key, value) {
-
 				if (type == "set") 
-					window.crypton.setKeyword(window.cryptoName, key, value);
+					window.crypton.setKeyword(window.cryptoName, key.toLowerCase(), value.toLowerCase()).then((ret) => {
+						console.log("setKeyword done");
+					});
 				else
-					window.crypton.removeKeyword(window.cryptoName, key);
+					window.crypton.removeKeyword(window.cryptoName, key).then((ret) => {
+						console.log("removeKeyword done");
+					});
 
 				return;
-
-				var amount = 0;
-				var gasPrice = 1000000000;
-				var gas = 10000;
-				var abiData;
-
-				if (type == "set") 
-					abiData = window.crypton._contact.methods.setKeyword(window.cryptoName, key, value).encodeABI();
-				else if (type == "remove")
-					abiData = window.crypton._contact.methods.removeKeyword(window.cryptoName, key).encodeABI();
-
-				var returnUrl = window.location.href.split('?')[0] + "?r=" + encodeURIComponent(window.returnURL);
-
-				var elaphantURL = "elaphant://calleth?DID=" + window.ela_developerDID +
-					"&AppID=" + window.ela_appID +
-					"&AppName=" + encodeURIComponent(window.ela_appName) +
-					"&Description=" + encodeURIComponent(window.ela_appName) +
-					"&PublicKey=" + window.ela_publicKey +
-					//"&OrderID=" + orderID +
-					"&CoinName=Ethsc" +
-					"&to=" + window.contract_address +
-					"&value=" + amount +
-					"&price=" + gasPrice +
-					"&gas=" + gas +
-					"&data=" + abiData +
-					"&ReturnUrl=" + encodeURIComponent(returnUrl);
-
-				var url = "https://launch.elaphant.app/?appName=" + encodeURIComponent(window.ela_appTitle) +
-					"&appTitle=" + encodeURIComponent(window.ela_appTitle) +
-					"&autoRedirect=True&redirectURL=" + encodeURIComponent(elaphantURL);
-				window.location.href = url;
-				return false;
 			}
 		},
 		created () {
