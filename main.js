@@ -1,3 +1,11 @@
+$('body').loading({
+  onStart: function(loading) {
+    loading.overlay.slideDown(400);
+  },
+  onStop: function(loading) {
+    loading.overlay.slideUp(400);
+  }
+});
 
 window.initWallet().then(function(result) {
 	if (!window.crypton)
@@ -237,8 +245,10 @@ window.initWallet().then(function(result) {
 						}
 						setProfile(address+"_names", JSON.stringify(result));
 						setProfile(address+"_names_timestamp", parseInt(Date.now()/1000));
+						$('body').loading('stop');
 					});
 				}
+				$('body').loading('stop');
 
 			},
 			editName : function(name) {
@@ -270,6 +280,14 @@ window.initWallet().then(function(result) {
                 $('.navbar-collapse').collapse('hide');
 
                 if (title == "account") {
+                	$('body').loading({
+					  onStart: function(loading) {
+					    loading.overlay.slideDown(400);
+					  },
+					  onStop: function(loading) {
+					    loading.overlay.slideUp(400);
+					  }
+					});
                 	if (!window.currentAddress || window.currentAddress == "") {
                 		var url = window.returnURL;
                 		if (url.indexOf('?') >= 0)
@@ -302,6 +320,9 @@ window.initWallet().then(function(result) {
 		navbar.loaded = true;
 		homePage.loaded = true;
 		accountPage.loaded = true;
+		$('body').loading('stop');
+	}).catch(function(error) {
+		$('body').loading('stop');
 	});
 
 	if (tabPage && tabPage == "account") {
