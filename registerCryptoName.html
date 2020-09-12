@@ -68,10 +68,10 @@
               </div>
               <hr class="mb-4">
               <div class="custom-control custom-checkbox">
-                 <input id="same-address" type="checkbox" class="custom-control-input" true-value="1" false-value="0" v-model="enableMessenger">
-                 <label class="custom-control-label" for="same-address">Enable <span class="text-primary">Messenger</span>?</label>
-                 <input type="text" class="form-control" placeholder="Sign the result of the string below with your wallet" v-model="signature" v-if="enableMessenger!=0" required>
-                 <span v-if="enableMessenger!=0">{{ cryptoName+'.elastos.namemessenger'+ethAddress.toLowerCase() }}</span>
+                 <input id="same-address" type="checkbox" class="custom-control-input" true-value="1" false-value="0" v-model="enableEmail">
+                 <label class="custom-control-label" for="same-address">Enable <span class="text-primary">email</span>?</label>
+                 <input type="text" class="form-control" placeholder="your personal email address" v-model="email" v-if="enableEmail!=0" required>
+                 <!--span v-if="enableEmail!=0">{{ cryptoName+'.elastos.namemessenger'+ethAddress.toLowerCase() }}</span-->
 
               </div>
               <hr class="mb-4">

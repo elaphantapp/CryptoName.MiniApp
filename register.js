@@ -14,57 +14,6 @@ $(function () {
 		window.cryptoName = "";
 
 
-	var setProfile = function(key, value) {
-		return localStorage.setItem(key, value);
-	};
-
-	var getProfile = function(key) {
-		return localStorage.getItem(key);
-	};
-
-	var removeProfile = function(key) {
-		return localStorage.removeItem(key);
-	}
-
-	window.login = function(returnUrl, force) {
-
-		if (!force) {
-			currentAddress = getProfile("currentAddress");
-			var tm = getProfile("timestamp");
-			if (currentAddress && tm && parseInt(Date.now()/1000) - tm < 3600*24)
-				return;
-		}
-
-		var random = Math.floor(Math.random() * 100000000);
-		setProfile("login_random", random);
-
-		var returnUrl = returnUrl || window.returnURL || "https://cryptoname.elaphant.app";
-
-		var elaphantURL = "elaphant://identity?" +
-							"AppID=" + window.ela_appID +
-							"&AppName=" + encodeURIComponent(window.ela_appName) +
-							"&RandomNumber="+random+
-							"&DID=" + window.ela_developerDID +
-							"&PublicKey=" + window.ela_publicKey +
-							"&ReturnUrl=" + encodeURIComponent(returnUrl) +
-							"&RequestInfo=ELAAddress,BTCAddress,ETHAddress";
-
-		var url = "https://launch.elaphant.app/?appName="+encodeURIComponent(window.ela_appTitle)+
-				  	"&appTitle="+encodeURIComponent(window.ela_appTitle)+
-				  	"&autoRedirect=True&redirectURL="+encodeURIComponent(elaphantURL);
-
-		window.location.href = url;		
-	}
-
-	window.logout = function() {
-		removeProfile("currentAddress");
-		removeProfile("userInfo");
-		removeProfile("timestamp");
-		currentAddress = "";
-		window.href = window.returnURL;
-	}
-
-
 	var registerPage = new Vue({
 		el:"#registerPage",
 		data: {
@@ -75,10 +24,10 @@ $(function () {
 			"btcAddress" : "",
 			"ethAddress" : "",
 			"publicKey" : "",
-			"signature" : "",
+			"email" : "",
 			"depositAmount" : 0.5,
 			"totalAmount" : 0.0,
-			"enableMessenger" : 0
+			"enableEmail" : 0
 		},
 		methods: {
 			pay : function() {
@@ -90,7 +39,7 @@ $(function () {
 					"ela.address": this.elaAddress.trim(),
 					"btc.address": this.btcAddress.trim(),
 					"eth.address": this.ethAddress.trim().toLowerCase(),
-					"messenger": this.signature.trim()
+					"email": this.email.trim()
 				};
 				var returnUrl = window.returnURL + (window.returnURL.indexOf('?')<0 ? "?new=" : "&new=") + domainInfo.name;
 				//window.location.href.split('?')[0] + "?r=" + encodeURIComponent(window.returnURL);

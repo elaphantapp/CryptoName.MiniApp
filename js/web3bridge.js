@@ -64,20 +64,19 @@ window.initWallet = function initWallet() {
         if (typeof window.ethereum === 'undefined') {
 
             var ElaProvider = undefined;
-
-            // if (window.currentAddress) {
-            //     ElaProvider = ElaphantWeb3Provider.initWithConfig({"rpcUrl": window.provider_url, "address": window.currentAddress, "isEmbedded": false});
-            // }
-            // else {
-                var appTitle = "CryptoName";
-                var developerDID = "ibxNTG1hBPK1rZuoc8fMy4eFQ96UYDAQ4J";
-                var appID = "ac89a6a3ff8165411c8426529dccde5cd44d5041407bf249b57ae99a6bfeadd60f74409bd5a3d81979805806606dd2d55f6979ca467982583ac734cf6f55a290";
-                var appName = "Mini Apps";
-                var publicKey = "034c51ddc0844ff11397cc773a5b7d94d5eed05e7006fb229cf965b47f19d27c55";
-                var random = Math.floor(Math.random() * 100000000);
+            var appTitle = "CryptoName";
+            var developerDID = "ibxNTG1hBPK1rZuoc8fMy4eFQ96UYDAQ4J";
+            var appID = "ac89a6a3ff8165411c8426529dccde5cd44d5041407bf249b57ae99a6bfeadd60f74409bd5a3d81979805806606dd2d55f6979ca467982583ac734cf6f55a290";
+            var appName = "Mini Apps";
+            var publicKey = "034c51ddc0844ff11397cc773a5b7d94d5eed05e7006fb229cf965b47f19d27c55";
+            var random = Math.floor(Math.random() * 100000000);
+            if (!window.currentAddress) {
                 localStorage.setItem("login_random", random);
-                ElaProvider = ElaphantWeb3Provider.initWithParams(window.provider_url, appTitle, appID, appName, publicKey, developerDID, random, window.currentAddress);
-            // }
+            }
+            else {
+                random = localStorage.getItem("login_random");  
+            }
+            ElaProvider = ElaphantWeb3Provider.initWithParams(window.provider_url, appTitle, appID, appName, publicKey, developerDID, random, window.currentAddress);
 
             window.web3 = new Web3(ElaProvider);
             //window.crypton = new Crypton(window.abiArray, window.contract_address, window.web3);

@@ -222,7 +222,7 @@ class Crypton {
 			.then(function(x) {
 				return pthis._web3.utils.fromWei(x, "ether");
 			})
-			.catch(function(){
+			.catch(function(err){
 				return -1;
 			});
 	}
