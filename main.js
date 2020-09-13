@@ -229,6 +229,7 @@ window.initWallet().then(function(result) {
 									setProfile("registering", JSON.stringify(pthis.registering));
 							}
 						}
+						$('body').loading('stop');
 					}
 
 					window.crypton.getOwnerNameTokens(address).then(function(result) {
@@ -248,7 +249,10 @@ window.initWallet().then(function(result) {
 						$('body').loading('stop');
 					});
 				}
-				$('body').loading('stop');
+				else {
+					$('body').loading('stop');	
+				}
+				
 
 			},
 			editName : function(name) {
