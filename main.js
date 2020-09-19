@@ -189,7 +189,7 @@ window.initWallet().then(function(result) {
 			},
 			register() {
 				if (window.userInfo) {
-					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&r="+encodeURIComponent(window.returnURL)+"&Data="+encodeURIComponent(rawIdentityData)+"&Sign="+rawSign;
+					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&r="+encodeURIComponent(window.returnURL)+"&action=auth&&Data="+encodeURIComponent(rawIdentityData)+"&Sign="+rawSign;
 					//window.open(url, "_blank");
 					window.location.href = url;
 					return false;
