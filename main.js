@@ -21,6 +21,8 @@ window.initWallet().then(function(result) {
 	var tmpAddr = params.get("address");
 	var tabPage = params.get("tab");
 	var newName = params.get("new");
+    var rawIdentityData = params.get("Data");
+    var rawSign = params.get("Sign");
 
 	if (tmpAddr)
 		window.currentAddress = tmpAddr;
@@ -187,7 +189,7 @@ window.initWallet().then(function(result) {
 			},
 			register() {
 				if (window.userInfo) {
-					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&r="+encodeURIComponent(window.returnURL);
+					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&r="+encodeURIComponent(window.returnURL)+"&Data="+rawIdentityData+"&Sign="+rawSign;
 					//window.open(url, "_blank");
 					window.location.href = url;
 					return false;

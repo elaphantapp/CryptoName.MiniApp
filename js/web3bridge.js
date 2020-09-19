@@ -24,14 +24,14 @@ window.ela_publicKey = "034c51ddc0844ff11397cc773a5b7d94d5eed05e7006fb229cf965b4
 window.initWallet = function initWallet() {
     const url = new URL(window.location.href.replace("#", ""));
     let params = new URLSearchParams(url.search.substring(1));
-    var identityData = params.get("Data");
-    var identity = identityData ? JSON.parse(identityData) : undefined;
+    var rawIdentityData = params.get("Data");
+    var identity = identityData ? JSON.parse(rawIdentityData) : undefined;
     var sign = params.get("Sign");
 
     if (sign && identity) {
         // identity callback
 
-        if ( verify(identityData, sign, identity.PublicKey) && identity.RandomNumber == localStorage.getItem("login_random") ) {
+        if ( verify(rawIdentityData, sign, identity.PublicKey) && identity.RandomNumber == localStorage.getItem("login_random") ) {
             window.currentAddress = identity.ETHAddress.toLowerCase();
             window.userInfo = identity;
             window.currentAddress = identity.ETHAddress;
