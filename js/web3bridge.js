@@ -25,13 +25,11 @@ window.initWallet = function initWallet() {
     const url = new URL(window.location.href.replace("#", ""));
     let params = new URLSearchParams(url.search.substring(1));
     var rawIdentityData = params.get("Data");
-    var identity = identityData ? JSON.parse(rawIdentityData) : undefined;
+    var identity = rawIdentityData ? JSON.parse(rawIdentityData) : undefined;
     var sign = params.get("Sign");
 
     if (sign && identity) {
-        // identity callback
-
-        if ( verify(rawIdentityData, sign, identity.PublicKey) && identity.RandomNumber == localStorage.getItem("login_random") ) {
+        if ( verify(rawIdentityData, sign, identity.PublicKey) ) {
             window.currentAddress = identity.ETHAddress.toLowerCase();
             window.userInfo = identity;
             window.currentAddress = identity.ETHAddress;
