@@ -32,41 +32,59 @@ $(function () {
 		methods: {
 			pay : function() {
 
-				var domainInfo = {
-					"name": this.cryptoName.trim().toLowerCase(),
-					"did": this.DID,
-					"publickey": this.publicKey.trim(),
-					"ela.address": this.elaAddress.trim(),
-					"btc.address": this.btcAddress.trim(),
-					"eth.address": this.ethAddress.trim().toLowerCase(),
-					"email": this.email.trim()
-				};
-				var returnUrl = window.returnURL + (window.returnURL.indexOf('?')<0 ? "?new=" : "&new=") + domainInfo.name;
-				//window.location.href.split('?')[0] + "?r=" + encodeURIComponent(window.returnURL);
-				//var callbackUrl = window.trigger_url;
-				var orderID = "Referrer:elaphant;Owner:"+this.ethAddress+";Data:"+btoa(JSON.stringify(domainInfo));
+				// var domainInfo = {
+				// 	"name": this.cryptoName.trim().toLowerCase(),
+				// 	"did": this.DID,
+				// 	"publickey": this.publicKey.trim(),
+				// 	"ela.address": this.elaAddress.trim(),
+				// 	"btc.address": this.btcAddress.trim(),
+				// 	"eth.address": this.ethAddress.trim().toLowerCase(),
+				// 	"email": this.email.trim()
+				// };
+				// var returnUrl = window.returnURL + (window.returnURL.indexOf('?')<0 ? "?new=" : "&new=") + domainInfo.name;
+				// //window.location.href.split('?')[0] + "?r=" + encodeURIComponent(window.returnURL);
+				// //var callbackUrl = window.trigger_url;
+				// var orderID = "Referrer:elaphant;Owner:"+this.ethAddress+";Data:"+btoa(JSON.stringify(domainInfo));
 
-				var elaphantURL = "elaphant://elapay?DID=" + window.ela_developerDID +
-								 "&AppID=" + window.ela_appID +
-								 "&AppName=" + encodeURIComponent(window.ela_appName) +
-								 "&Description=" + encodeURIComponent(window.ela_appName) +
-								 "&PublicKey="+ window.ela_publicKey +
-								 "&OrderID=" + orderID +
-								 "&CoinName=ELA"+
-								 "&ReceivingAddress=" + window.ela_proxyAddress +
-								 "&Amount=" + this.totalAmount +
-								 "&ReturnUrl=" + encodeURIComponent(returnUrl);
-								 //"&CallbackUrl=" + encodeURIComponent(callbackUrl);
+				// var elaphantURL = "elaphant://elapay?DID=" + window.ela_developerDID +
+				// 				 "&AppID=" + window.ela_appID +
+				// 				 "&AppName=" + encodeURIComponent(window.ela_appName) +
+				// 				 "&Description=" + encodeURIComponent(window.ela_appName) +
+				// 				 "&PublicKey="+ window.ela_publicKey +
+				// 				 "&OrderID=" + orderID +
+				// 				 "&CoinName=ELA"+
+				// 				 "&ReceivingAddress=" + window.ela_proxyAddress +
+				// 				 "&Amount=" + this.totalAmount +
+				// 				 "&ReturnUrl=" + encodeURIComponent(returnUrl);
+				// 				 //"&CallbackUrl=" + encodeURIComponent(callbackUrl);
 
-				var url = "https://launch.elaphant.app/?appName="+encodeURIComponent(window.ela_appTitle)+
-						  	"&appTitle="+encodeURIComponent(window.ela_appTitle)+
-						  	"&autoRedirect=True&redirectURL="+encodeURIComponent(elaphantURL);
-				window.location.href = url;
-				//window.open(url);
-				return false;
+				// var url = "https://launch.elaphant.app/?appName="+encodeURIComponent(window.ela_appTitle)+
+				// 		  	"&appTitle="+encodeURIComponent(window.ela_appTitle)+
+				// 		  	"&autoRedirect=True&redirectURL="+encodeURIComponent(elaphantURL);
+				// window.location.href = url;
+				// //window.open(url);
+				// return false;
+
+				this.register()
 			},
 			submitChange : function() {
 
+			},
+			register: function() {
+				const name = this.cryptoName.trim().toLowerCase()
+				window.crypton.getOwnerOfNameToken(name)
+				.then (function(addr) {
+					if (addr == "") 
+						console.log("TESTING: getownerOfNameToken(NotExist) is OK!");
+					// 获取最新价格，1表示1-2个字母，2表示3个字母，3表示4个及以上字母
+					return crypton.getCurrentPrice(3);
+				})
+				.then (function(price) {
+					console.log("getCurrentPrice done. " + price);
+					// 注册名字
+					//nameprice + deposit + service fee
+					return crypton.registerName(name, ""+(parseFloat(price)+depositAmount+0.5));
+				})
 			}
 		},
 		created () {
