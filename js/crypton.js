@@ -1,8 +1,7 @@
 
 class Crypton {
-
 	static async QueryName(name) {
-		return fetch("https://"+name+".elastos.name/info.json")
+		return fetch("https://"+name+".elastos.name/info.json", { mode: "no-cors" })
   			.then(response => response.json())
 			.then (result => {
 				return result;
@@ -10,10 +9,12 @@ class Crypton {
 	}
 
 	static async QueryKey(name, key) {
-		return fetch("https://"+name+".elastos.name/"+key)
-			.then (result => {
-				return result.text();
-			});
+		var addr = "https://"+name+".elastos.name/"+key;
+
+		return fetch(addr, { mode: "no-cors" }).then(result => result.text());
+
+
+
 	}
 
 	constructor (abiArray, contractAddress, web3) {
