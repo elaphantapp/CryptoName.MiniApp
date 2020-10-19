@@ -72,6 +72,7 @@ $(function () {
 			},
 			register: function() {
 				const name = this.cryptoName.trim().toLowerCase()
+				const depositAmount = this.depositAmount
 				window.crypton.getOwnerOfNameToken(name)
 				.then (function(addr) {
 					if (addr == "") 
@@ -84,6 +85,11 @@ $(function () {
 					// 注册名字
 					//nameprice + deposit + service fee
 					return crypton.registerName(name, ""+(parseFloat(price)+depositAmount+0.5));
+				}).then (function() {
+					console.log("registerName done.");
+					// return crypton.setBasicInfo(tmpName, "btc1234", "eth1234", "ela1234", "did1234", "pubkey1234");
+				}).catch(function(err){
+					console.log(err);
 				})
 			}
 		},
