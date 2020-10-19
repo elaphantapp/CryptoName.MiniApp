@@ -51,7 +51,7 @@ class Crypton {
 				var result = { to: pthis._contractAddress, from: pthis._account, gasPrice: '0x'+parseInt(gasPrice).toString(16), gas: '0x'+parseInt(1000000).toString(16), value:'0x0' };
 
 				if (amount && parseFloat(amount) > 0)
-					result.value = '0x'+(pthis._web3.utils.toWei(amount+"", "ether")+'').toString(16);
+					result.value = '0x'+parseInt(pthis._web3.utils.toWei(amount+"", "ether")).toString(16);
 				if (abiData)
 					result["data"] = abiData;
 
