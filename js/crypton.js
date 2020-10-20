@@ -1,8 +1,7 @@
 
 class Crypton {
-
 	static async QueryName(name) {
-		return fetch("https://"+name+".elastos.name/info.json")
+		return fetch("https://"+name+".elastos.name/info.json", { mode: "no-cors" })
   			.then(response => response.json())
 			.then (result => {
 				return result;
@@ -10,10 +9,12 @@ class Crypton {
 	}
 
 	static async QueryKey(name, key) {
-		return fetch("https://"+name+".elastos.name/"+key)
-			.then (result => {
-				return result.text();
-			});
+		var addr = "https://"+name+".elastos.name/"+key;
+
+		return fetch(addr, { mode: "no-cors" }).then(result => result.text());
+
+
+
 	}
 
 	constructor (abiArray, contractAddress, web3) {
@@ -51,7 +52,7 @@ class Crypton {
 				var result = { to: pthis._contractAddress, from: pthis._account, gasPrice: '0x'+parseInt(gasPrice).toString(16), gas: '0x'+parseInt(1000000).toString(16), value:'0x0' };
 
 				if (amount && parseFloat(amount) > 0)
-					result.value = '0x'+(pthis._web3.utils.toWei(amount+"", "ether")+'').toString(16);
+					result.value = '0x'+parseInt(pthis._web3.utils.toWei(amount+"", "ether")).toString(16);
 				if (abiData)
 					result["data"] = abiData;
 
