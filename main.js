@@ -188,16 +188,40 @@ window.initWallet().then(function(result) {
 				});
 			},
 			register() {
-				if (window.userInfo) {
-					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&r="+encodeURIComponent(window.returnURL)+"&action=auth&&Data="+encodeURIComponent(rawIdentityData)+"&Sign="+rawSign;
-					//window.open(url, "_blank");
-					window.location.href = url;
-					return false;
-				}
-				else {
-					var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&r="+encodeURIComponent(window.returnURL)
-					login(url, true);
-				}
+				this.registerDirectly();
+				// if (window.userInfo) {
+				// 	var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&r="+encodeURIComponent(window.returnURL)+"&action=auth&&Data="+encodeURIComponent(rawIdentityData)+"&Sign="+rawSign;
+				// 	//window.open(url, "_blank");
+				// 	window.location.href = url;
+				// 	return false;
+				// }
+				// else {
+				// 	var url = window.returnURL+"/registerCryptoName.html?n="+this.cryptoName+"&r="+encodeURIComponent(window.returnURL)
+				// 	login(url, true);
+				// }
+			},
+			registerDirectly(){
+
+				const name = this.cryptoName.trim().toLowerCase()
+				const depositAmount = this.depositAmount
+				window.crypton.getOwnerOfNameToken(name)
+				.then (function(addr) {
+					if (addr == "") 
+						console.log("TESTING: getownerOfNameToken(NotExist) is OK!");
+					// 获取最新价格，1表示1-2个字母，2表示3个字母，3表示4个及以上字母
+					return crypton.getCurrentPrice(3);
+				})
+				.then (function(price) {
+					console.log("getCurrentPrice done. " + price);
+					// 注册名字
+					// console.log(""+(parseFloat(price)+depositAmount+0.5))
+					const totalPrice = parseFloat(price);
+					return crypton.registerName(name, ""+totalPrice);
+				}).then (function() {
+					console.log("registerName done.");
+				}).catch(function(err){
+					console.log(err);
+				})
 			}
 
 		},

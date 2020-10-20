@@ -84,10 +84,11 @@ $(function () {
 					console.log("getCurrentPrice done. " + price);
 					// 注册名字
 					//nameprice + deposit + service fee
-					return crypton.registerName(name, ""+(parseFloat(price)+depositAmount+0.5));
+					// console.log(""+(parseFloat(price)+depositAmount+0.5))
+					const totalPrice = parseFloat(price)+depositAmount+0.5 + 0.01;
+					return crypton.registerName(name, ""+totalPrice);
 				}).then (function() {
 					console.log("registerName done.");
-					// return crypton.setBasicInfo(tmpName, "btc1234", "eth1234", "ela1234", "did1234", "pubkey1234");
 				}).catch(function(err){
 					console.log(err);
 				})

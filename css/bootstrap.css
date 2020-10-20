@@ -642,6 +642,14 @@ pre code {
   flex-grow: 1;
   min-width: 0;
   max-width: 100%;
+  position: relative;
+}
+
+.col-image{
+  position: absolute;
+  right: 10px;
+  width: 30px;
+  height: 30px;
 }
 
 .row-cols-1 > * {
