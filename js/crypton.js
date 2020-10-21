@@ -304,7 +304,13 @@ class Crypton {
 		var abiData = this._contact.methods.renewToken(pthis._account, to, name).encodeABI();
 		return this._init_account()
 			.then(function() {
-				return pthis.getRenewalPrice(name);
+				var level = 1;
+                if (this.curItem.name.length == 3) {
+                    level = 2;
+                } else if (this.curItem.name.length > 3){
+                    level = 3;
+                }
+				return pthis.getRenewalPrice(level);
 			})
 			.then(function(price) {
 				return pthis._generate_option(price, abiData);

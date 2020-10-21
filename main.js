@@ -290,6 +290,16 @@ window.initWallet().then(function(result) {
 				var url = window.returnURL+"/transferCryptoName.html?n="+name+"&r="+encodeURIComponent(window.returnURL);
 				window.location.href = url;
 				return false;
+			},
+			renew: function(name) {
+
+				window.crypton.renew(name).then(function () {
+					console.log("renew done.");
+					window.history.go(-1);
+				}).catch(function (err) {
+					console.log(err);
+				})
+
 			}
 
 		},
