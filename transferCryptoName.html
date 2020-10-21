@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoName - Elastos Name</title>
+    <link href="images/favicon.png" rel="icon">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  
+</head>
+<body class="bg-light">
+    <div id="transferPage">
+        <div class="py-5 text-center">
+           <p class="lead">Transfer CryptoName</p>
+        </div>
+        <div class="col-11 mx-auto">
+            <form class="needs-validation" novalidate>
+                <label class="text-right">To CryptoName:</label>
+                <div class="input-group mb-3 shadow-sm">
+                   <input type="text" class="form-control rounded" aria-label="Recipient's username" aria-describedby="basic-addon2" v-model="toCryptoName" @input="transferDiagChange()">
+                </div>
+    
+                <label class="text-right">OR
+                    To Sidechain Address:
+                </label>
+                <div class="input-group mb-3 shadow-sm">
+                   <input type="text" class="form-control rounded" aria-label="Recipient's username" aria-describedby="basic-addon2" v-model="transferAddress">
+                </div>
+                <button class="btn btn-primary btn-sm m-1" type="button" @click="transfer">Transfer</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+<script src="js/jquery-3.5.1.slim.min.js"></script>
+<script>window.jQuery</script>
+<script src="js/bootstrap.bundle.js"></script>
+<script src="js/web3.min.js"></script>
+<script src="js/elaphant.web3.provider.min.js"></script>
+<script src="js/vue.min.js"></script>
+<script src="js/vue-clipboard.min.js"></script>
+<script src="js/sha256.min.js"></script>
+<script src="js/elastos-wallet-api.js"></script>
+<script src="js/domain_abi.js"></script>
+<script src="js/crypton.js"></script>
+<script src="js/web3bridge.js"></script>
+<script src="transfer.js"></script>
+
+</html>

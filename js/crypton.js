@@ -11,10 +11,7 @@ class Crypton {
 	static async QueryKey(name, key) {
 		var addr = "https://"+name+".elastos.name/"+key;
 
-		return fetch(addr, { mode: "no-cors" }).then(result => result.text());
-
-
-
+		return fetch(addr).then( result => result.text());
 	}
 
 	constructor (abiArray, contractAddress, web3) {

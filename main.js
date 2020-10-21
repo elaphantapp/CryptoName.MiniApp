@@ -285,6 +285,11 @@ window.initWallet().then(function(result) {
 				var url = window.returnURL+"/editCryptoName.html?n="+name+"&r="+encodeURIComponent(window.returnURL);
 				window.location.href = url;
 				return false;
+			},
+			transferName: function(name) {
+				var url = window.returnURL+"/transferCryptoName.html?n="+name+"&r="+encodeURIComponent(window.returnURL);
+				window.location.href = url;
+				return false;
 			}
 
 		},
