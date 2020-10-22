@@ -294,13 +294,13 @@ window.initWallet().then(function(result) {
 			renew: function(name) {
 
 				var pthis = this;
-				window.crypton.renew(name).then(function () {
+				window.crypton.renew(name).then(function (m) {
 					console.log("renew done.");
+					$('body').loading('start');
 					let sid = setInterval(() => {
 						clearInterval(sid);
-						$('body').loading('start');
 						pthis.updateMyNames(currentAddress);
-					}, 500);
+					}, 1000);
 				}).catch(function (err) {
 					console.log(err);
 				})
