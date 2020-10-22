@@ -23,7 +23,7 @@ window.initWallet().then(function(result) {
 	var newName = params.get("new");
     var rawIdentityData = params.get("Data");
     var rawSign = params.get("Sign");
-
+	var address = result;
 	if (tmpAddr)
 		window.currentAddress = tmpAddr;
 
@@ -293,9 +293,14 @@ window.initWallet().then(function(result) {
 			},
 			renew: function(name) {
 
+				var pthis = this;
 				window.crypton.renew(name).then(function () {
 					console.log("renew done.");
-					window.history.go(-1);
+					let sid = setInterval(() => {
+						clearInterval(sid);
+						$('body').loading('start');
+						pthis.updateMyNames(currentAddress);
+					}, 500);
 				}).catch(function (err) {
 					console.log(err);
 				})

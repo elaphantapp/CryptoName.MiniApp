@@ -57,4 +57,6 @@ footer {
   color: #535074;
 }
 
-
+.danger-text-font{
+  font-size: 0.5rem;
+}

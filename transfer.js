@@ -30,7 +30,7 @@ var transferPage = new Vue({
 			if (name.length >= 24)
 				return;
 			var pthis = this;
-			Cry=pton.QueryKey(name, "eth.address")
+			Crypton.QueryKey(name, "eth.address")
 				.then(function (address) {
 					pthis.transferAddress = address;
 					console.log(address)

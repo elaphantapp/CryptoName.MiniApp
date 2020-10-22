@@ -299,15 +299,15 @@ class Crypton {
 			});
 	}
 
-	async renew (to, name) {
+	async renew (name) {
 		var pthis = this;
-		var abiData = this._contact.methods.renewToken(pthis._account, to, name).encodeABI();
+		var abiData = this._contact.methods.renewToken(name).encodeABI();
 		return this._init_account()
 			.then(function() {
 				var level = 1;
-                if (this.curItem.name.length == 3) {
+                if (name.length == 3) {
                     level = 2;
-                } else if (this.curItem.name.length > 3){
+                } else if (name.length > 3){
                     level = 3;
                 }
 				return pthis.getRenewalPrice(level);
@@ -319,6 +319,7 @@ class Crypton {
 				if (window.ethereum) {
 					window.ethereum.request({ method: 'eth_sendTransaction', params: [option] });
 					//.then(console.log).catch(err=>console.log);
+					// return pthis.callRenewName(name, option)
 			    }
 			    else {
 			    	reject("Not found ethereum.");
