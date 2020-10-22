@@ -23,7 +23,7 @@ window.initWallet().then(function(result) {
 	var newName = params.get("new");
     var rawIdentityData = params.get("Data");
     var rawSign = params.get("Sign");
-
+	var address = result;
 	if (tmpAddr)
 		window.currentAddress = tmpAddr;
 
@@ -285,6 +285,26 @@ window.initWallet().then(function(result) {
 				var url = window.returnURL+"/editCryptoName.html?n="+name+"&r="+encodeURIComponent(window.returnURL);
 				window.location.href = url;
 				return false;
+			},
+			transferName: function(name) {
+				var url = window.returnURL+"/transferCryptoName.html?n="+name+"&r="+encodeURIComponent(window.returnURL);
+				window.location.href = url;
+				return false;
+			},
+			renew: function(name) {
+
+				var pthis = this;
+				window.crypton.renew(name).then(function (m) {
+					console.log("renew done.");
+					$('body').loading('start');
+					let sid = setInterval(() => {
+						clearInterval(sid);
+						pthis.updateMyNames(currentAddress);
+					}, 1000);
+				}).catch(function (err) {
+					console.log(err);
+				})
+
 			}
 
 		},

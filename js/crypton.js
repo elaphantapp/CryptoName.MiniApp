@@ -11,10 +11,7 @@ class Crypton {
 	static async QueryKey(name, key) {
 		var addr = "https://"+name+".elastos.name/"+key;
 
-		return fetch(addr, { mode: "no-cors" }).then(result => result.text());
-
-
-
+		return fetch(addr).then( result => result.text());
 	}
 
 	constructor (abiArray, contractAddress, web3) {
@@ -302,12 +299,18 @@ class Crypton {
 			});
 	}
 
-	async renew (to, name) {
+	async renew (name) {
 		var pthis = this;
-		var abiData = this._contact.methods.renewToken(pthis._account, to, name).encodeABI();
+		var abiData = this._contact.methods.renewToken(name).encodeABI();
 		return this._init_account()
 			.then(function() {
-				return pthis.getRenewalPrice(name);
+				var level = 1;
+                if (name.length == 3) {
+                    level = 2;
+                } else if (name.length > 3){
+                    level = 3;
+                }
+				return pthis.getRenewalPrice(level);
 			})
 			.then(function(price) {
 				return pthis._generate_option(price, abiData);
@@ -315,7 +318,9 @@ class Crypton {
 			.then(function(option) {
 				if (window.ethereum) {
 					window.ethereum.request({ method: 'eth_sendTransaction', params: [option] });
+					return 0;
 					//.then(console.log).catch(err=>console.log);
+					// return pthis.callRenewName(name, option)
 			    }
 			    else {
 			    	reject("Not found ethereum.");
