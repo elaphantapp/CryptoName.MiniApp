@@ -294,8 +294,10 @@ window.initWallet().then(function(result) {
 			renew: function(name) {
 
 				var pthis = this;
-				window.crypton.renew(name).then(function (m) {
+				window.crypton.renew(name).then(function (result) {
 					console.log("renew done.");
+					console.log(result);
+
 					$('body').loading('start');
 					let sid = setInterval(() => {
 						clearInterval(sid);
