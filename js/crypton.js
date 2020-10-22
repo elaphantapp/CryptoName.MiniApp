@@ -317,8 +317,7 @@ class Crypton {
 			})
 			.then(function(option) {
 				if (window.ethereum) {
-					window.ethereum.request({ method: 'eth_sendTransaction', params: [option] });
-					return 0;
+					return window.ethereum.request({ method: 'eth_sendTransaction', params: [option] });
 					//.then(console.log).catch(err=>console.log);
 					// return pthis.callRenewName(name, option)
 			    }
