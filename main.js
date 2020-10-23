@@ -1,8 +1,10 @@
 $('body').loading({
-  onStart: function(loading) {
+  onStart: function(loading) {	 
+	console.log("onStart");
     loading.overlay.slideDown(400);
   },
   onStop: function(loading) {
+	console.log("onStop");
     loading.overlay.slideUp(400);
   }
 });
@@ -369,6 +371,7 @@ window.initWallet().then(function(result) {
 	}).then(function(price) {
 		homePage.level1Price = price;
 	}).then(function() {
+		console.log("homePage.loaded = true");
 		navbar.loaded = true;
 		homePage.loaded = true;
 		accountPage.loaded = true;
