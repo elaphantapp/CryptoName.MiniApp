@@ -648,6 +648,7 @@ pre code {
 }
 
 .col-image{
+  margin-top: 20px;
   display: flex;
 }
 
