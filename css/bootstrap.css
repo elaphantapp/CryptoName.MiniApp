@@ -605,10 +605,7 @@ pre code {
 
 .row {
   display: -ms-flexbox;
-  display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
   display: flex;
-  flex-direction: column;
-  -webkit-flex-direction:column;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-right: -15px;
@@ -648,6 +645,8 @@ pre code {
 }
 
 .col-image{
+  margin-top: 20px;
+  margin-left: 15px;
   display: flex;
 }
 

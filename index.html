@@ -75,8 +75,8 @@
 
   <main role="main" id="account-main" class="row h-100 d-none">
     <div class="container align-self-start mr-auto ml-auto row" v-if="loaded">
-      <div class="card rounded-lg mx-auto mb-3" style="width: 20rem; height: auto;" v-for="(item, index) in myNames">
-        <div class="card-body row">
+       <div class="card rounded-lg mx-auto mb-3" style="width: 20rem; height: auto;" v-for="(item, index) in myNames">
+         <div class="card-body row">
           <a @click="window.open('https://'+item.name+'.elastos.name')" class="card-link text-dark">
             <div class="col-10">
               <h5 class="card-title font-weight-bold mb-0">{{ item.name }}</h5>
@@ -87,8 +87,8 @@
             </div>
           </a>
 
-          <div class="col">
-              <div class="col-image">
+          <!-- <div class="col"> -->
+             <div class="col-image">
                 <a @click="renew(item.name)" class="card-link text-dark">
                   Renew
                   </a>
@@ -98,7 +98,7 @@
                   <a @click="editName(item.name)" class="card-link text-dark">
                   Edit
                 </a>
-              </div>
+              </div> 
             <!-- <a @click="window.open('https://'+item.name+'.elastos.name')" class="card-link text-dark">
               <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up-right-circle" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
@@ -107,7 +107,7 @@
                   d="M10.5 5h-4a.5.5 0 0 0 0 1h2.793l-4.147 4.146a.5.5 0 0 0 .708.708L10 6.707V9.5a.5.5 0 0 0 1 0v-4a.5.5 0 0 0-.5-.5z" />
               </svg>
             </a> -->
-          </div>
+          <!-- </div> -->
         </div>
       </div>
 
