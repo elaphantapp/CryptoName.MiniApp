@@ -77,15 +77,15 @@
     <div class="container align-self-start mr-auto ml-auto row name-container" v-if="loaded">
        <div class="card rounded-lg mx-auto mb-3" style="width: 20rem; height: auto;" v-for="(item, index) in myNames">
          <div class="card-body row">
-          <a @click="window.open('https://'+item.name+'.elastos.name')" class="card-link text-dark">
             <div class="col-10">
+              <a @click="window.open('https://'+item.name+'.elastos.name')" class="card-link text-dark">
               <h5 class="card-title font-weight-bold mb-0">{{ item.name }}</h5>
               <span class="text-muted card-title font-weight-bold text-truncate"
                 style="font-size: 0.8rem">.elastos.name</span>
               <p class="card-text text-muted" style="font-size: 0.8rem">
                 {{ new Date(item.expiration * 1000).Format('yyyy-MM-dd hh:mm:ss') }}</p>
+              </a>
             </div>
-          </a>
 
           <!-- <div class="col"> -->
              <div class="col-image">
