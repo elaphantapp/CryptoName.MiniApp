@@ -74,7 +74,7 @@
   </main>
 
   <main role="main" id="account-main" class="row h-100 d-none">
-    <div class="container align-self-start mr-auto ml-auto row" v-if="loaded">
+    <div class="container align-self-start mr-auto ml-auto row name-container" v-if="loaded">
        <div class="card rounded-lg mx-auto mb-3" style="width: 20rem; height: auto;" v-for="(item, index) in myNames">
          <div class="card-body row">
           <a @click="window.open('https://'+item.name+'.elastos.name')" class="card-link text-dark">
@@ -127,9 +127,6 @@
         <div class="card-body row">
           <div class="col-10">
             <h4 class="card-title font-weight-bold"><a class="text-muted" href="/">+New</a></h4>
-            <p class="card-text text-muted" style="font-size: 0.8rem"></p>
-          </div>
-          <div class="col">
           </div>
         </div>
       </div>
